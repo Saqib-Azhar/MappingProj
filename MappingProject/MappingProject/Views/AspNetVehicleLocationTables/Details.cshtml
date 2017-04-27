@@ -1,0 +1,99 @@
+﻿@model MappingProject.Models.AspNetVehicleLocationTable
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AspNetVehicleLocationTable</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LastLatitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastLatitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastLongitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastLongitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineRPM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineRPM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Speed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Speed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelPressure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelPressure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Throttle_Pos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Throttle_Pos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fuel_Rail_Pressure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fuel_Rail_Pressure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetVehicle.VehicleID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetVehicle.VehicleID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

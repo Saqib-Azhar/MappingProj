@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MappingProject.Models.AspNetVehicleLocationTable>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LastLatitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastLongitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EngineRPM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Speed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuelPressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Throttle_Pos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuelType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fuel_Rail_Pressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetVehicle.VehicleID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastLatitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastLongitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EngineRPM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Speed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FuelPressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Throttle_Pos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FuelType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fuel_Rail_Pressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetVehicle.VehicleID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
