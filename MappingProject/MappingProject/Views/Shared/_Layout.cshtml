@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body style="color: aliceblue; background-image: url('../../Images/75868.jpg');">
+<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -31,10 +31,10 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mapping Application</p>
-        </footer>
+
+        @*<footer>
+                <p>&copy; @DateTime.Now.Year - Mapping Application</p>
+            </footer>*@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
