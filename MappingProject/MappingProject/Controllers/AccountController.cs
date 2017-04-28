@@ -423,6 +423,39 @@ namespace MappingProject.Controllers
             base.Dispose(disposing);
         }
 
+
+        public ActionResult Dashboard()
+        {
+
+
+            var userID = User.Identity.GetUserId();
+
+            if (UserManager.IsInRole(userID, "Admin"))
+            {
+                System.Web.HttpContext.Current.Session["AdminID"] = userID;
+                return RedirectToAction("Dashboard", "AdminDashboard");
+            }
+            else if (UserManager.IsInRole(userID, "Driver"))
+            {
+                System.Web.HttpContext.Current.Session["DriverID"] = userID;
+                return RedirectToAction("Dashboard", "DriverDashboard");
+            }
+            else if (UserManager.IsInRole(userID, "SuperAdmin"))
+            {
+                System.Web.HttpContext.Current.Session["SuperAdminID"] = userID;
+                return RedirectToAction("Dashboard", "AdminDashboard");
+            }
+            return null;
+        }
+
+
+
+
+
+
+
+
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

@@ -202,6 +202,7 @@
     <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\AspNetVehicleLocationTablesController.cs" />
+    <Compile Include="Controllers\DriverDashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagerDashboardController.cs" />
@@ -380,6 +381,15 @@
     <Content Include="Views\AdminDashboard\ManagerRegister.cshtml" />
     <Content Include="Views\ManagerDashboard\DriverRegister.cshtml" />
     <Content Include="Views\AdminDashboard\DriverRegister.cshtml" />
+    <Content Include="Views\Shared\_DriverLayout.cshtml" />
+    <Content Include="Views\Shared\_HomeLayout.cshtml" />
+    <Content Include="Views\Shared\_HomePartial.cshtml" />
+    <Content Include="Views\Shared\_ManagerLayout.cshtml" />
+    <Content Include="Views\Shared\_SuperAdminLayout.cshtml" />
+    <Content Include="Views\Home\Demo.cshtml" />
+    <Content Include="Views\Home\Demo1.cshtml" />
+    <Content Include="Views\DriverDashboard\BlankPage.cshtml" />
+    <Content Include="Views\ManagerDashboard\BlankPage.cshtml" />
     <Content Include="Views\AspNetVehicleLocationTables\ViewMap.cshtml" />
   </ItemGroup>
   <ItemGroup>

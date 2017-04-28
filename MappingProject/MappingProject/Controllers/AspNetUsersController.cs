@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MappingProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MappingProject.Controllers
 {
@@ -126,11 +128,69 @@ namespace MappingProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+
+
             AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
+            
+            AspNetDriver_Vehicle DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == id);
+            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x => x.VehicleID == DriverVehicleObj.VehicleID);
+
+
+
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+
+            userManager.RemoveFromRole(id, "Driver");
+
             db.AspNetUsers.Remove(aspNetUser);
+            db.AspNetManager_Drivers.Remove(ManagerDriverObj);
+            db.AspNetDriver_Vehicle.Remove(DriverVehicleObj);
+            db.AspNetVehicles.Remove(VehicleObj);
+            db.SaveChanges();
+
+            //AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            //db.AspNetUsers.Remove(aspNetUser);
+            //db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult DriverDelete(string id)
+        {
+
+
+            return View();
+
+        }
+
+        [HttpPost, ActionName("DriverDelete")]
+        public ActionResult DriverDeletePost(string id)
+        {
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
+        
+            AspNetDriver_Vehicle DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == id) ;
+            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x=>x.VehicleID==DriverVehicleObj.VehicleID);
+           
+            db.AspNetUsers.Remove(aspNetUser);
+            db.AspNetManager_Drivers.Remove(ManagerDriverObj);
+            db.AspNetDriver_Vehicle.Remove(DriverVehicleObj);
+            db.AspNetVehicles.Remove(VehicleObj);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

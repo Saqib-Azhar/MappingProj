@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MappingProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,6 +14,20 @@ namespace MappingProject.Controllers
         {
             return View();
         }
+
+
+        
+        public ActionResult Demo(int id)
+        {
+            return View();
+        }
+        public ActionResult Demo1()
+        {
+            return View();
+        }
+
+
+
 
         public ActionResult About()
         {

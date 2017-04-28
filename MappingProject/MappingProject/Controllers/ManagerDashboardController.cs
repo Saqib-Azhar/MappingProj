@@ -61,7 +61,14 @@ namespace MappingProject.Controllers
         /***************************************************************************************************************************0***/
 
         /***************************************************************************************************************************0***/
-      
+
+
+
+        public ActionResult Dashboard()
+        {
+            return View("BlankPage");
+        }
+
 
         public ActionResult DriverRegister()
         {
@@ -91,9 +98,8 @@ namespace MappingProject.Controllers
 
                         var userStore = new UserStore<ApplicationUser>(context);
                         var userManager = new UserManager<ApplicationUser>(userStore);
-                        userManager.AddToRole(user.Id, "Driver");
+                      userManager.AddToRole(user.Id, "Driver");
                         var CurrentUser = UserManager.FindById(User.Identity.GetUserId());
-
                         var NewVehicle = new AspNetVehicle();
                         db.AspNetVehicles.Add(NewVehicle);
                         db.SaveChanges();
