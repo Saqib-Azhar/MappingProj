@@ -370,8 +370,6 @@
     <Content Include="Views\AspNetVehicleLocationTables\Details.cshtml" />
     <Content Include="Views\AspNetVehicleLocationTables\Edit.cshtml" />
     <Content Include="Views\AspNetVehicleLocationTables\Index.cshtml" />
-    <Content Include="Views\AspNetVehicleLocationTables\ViewMap.cshtml" />
-    <Content Include="Views\AspNetVehicleLocationTables\UpdateValues.cshtml" />
     <Content Include="Views\AspNetUsers\Create.cshtml" />
     <Content Include="Views\AspNetUsers\Delete.cshtml" />
     <Content Include="Views\AspNetUsers\Details.cshtml" />
@@ -382,6 +380,7 @@
     <Content Include="Views\AdminDashboard\ManagerRegister.cshtml" />
     <Content Include="Views\ManagerDashboard\DriverRegister.cshtml" />
     <Content Include="Views\AdminDashboard\DriverRegister.cshtml" />
+    <Content Include="Views\AspNetVehicleLocationTables\ViewMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

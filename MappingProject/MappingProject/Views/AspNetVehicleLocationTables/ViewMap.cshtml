@@ -124,14 +124,14 @@
 
                   function updateView()
                   {
-                      console.log(vehicleID);
-                      $.get('@Url.Action("ViewUpdate", "AspNetVehicleLocationTables")',
+                      console.log("vehicle id is here: ",vehicleID);
+                      $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
                                       { id: vehicleID }, function (data) {
-                                          console.log(JSON.stringify(data));
+
+                                          console.log("data with stringify function : ",JSON.stringify(data));
+                                          console.log("data without stringify function: ",data);
                                           toLng = data.LastLongitude;
                                           toLat = data.LastLatitude;
-                                          $("#longitudeDiv").html(toLng);
-                                          $("#latitudeDiv").html(toLat);
 
                                           var newEngineRPM = data.EngineRPM;
                                           var newSpeed = data.Speed;
@@ -141,9 +141,11 @@
                                           var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
                                           var newTimeStamp = data.TimeStamp;
 
+                                          $("#longitudeDiv").html(toLng);
+                                          $("#latitudeDiv").html(toLat);
                                           $("#enginerpmDiv").html(newEngineRPM);
                                           $("#speedDiv").html(newSpeed);
-                                          $("#fuelpressureDiv").html(newFuelPressure);
+                                          $("#fuel_rail_pressureDiv").html(newFuelPressure);
                                           $("#throttle_posDiv").html(newThrottle_Pos);
                                           $("#fueltypeDiv").html(newFuelType);
                                           $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);

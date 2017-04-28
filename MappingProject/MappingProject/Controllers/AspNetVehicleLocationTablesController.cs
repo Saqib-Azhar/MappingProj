@@ -42,7 +42,7 @@ namespace MappingProject.Controllers
             var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(x=>x.Id).FirstOrDefault(x=>x.VehicleID==id);
             ViewBag.LastLatitude = LocationObj.LastLatitude;
             ViewBag.LastLongitude = LocationObj.LastLongitude;
-            ViewBag.CarID = LocationObj.Id;
+            ViewBag.CarID = LocationObj.VehicleID;
 
             ViewBag.TimeStamp = LocationObj.TimeStamp;
             ViewBag.EngineRPM = LocationObj.EngineRPM;
@@ -55,15 +55,6 @@ namespace MappingProject.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult UpdateValues(int id)// To Manually update values of location //REMOVE IT AFTER APP CONFIGRATION
-        {
-            var LocationObj = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.VehicleID == id);
-            ViewBag.LastLatitude = LocationObj.LastLatitude;
-            ViewBag.LastLongitude = LocationObj.LastLongitude;
-            ViewBag.VehicleID = LocationObj.Id;
-            return View();
-        }
 
         [Authorize]
         public void UpdateDB(readings reading)
@@ -84,10 +75,14 @@ namespace MappingProject.Controllers
         }
 
         [Authorize]
-        public JsonResult ViewUpdate(int id)
+        public JsonResult UpdateView(int id)
         {
-            var LocationObj = db.AspNetVehicleLocationTables.LastOrDefault(x => x.VehicleID == id);
-            return Json(LocationObj, JsonRequestBehavior.AllowGet);
+            var data = (from sub in db.AspNetVehicleLocationTables
+                              where sub.VehicleID == id
+                              orderby(sub.Id) descending
+                        select new { sub.EngineRPM, sub.FuelPressure, sub.FuelType, sub.Fuel_Rail_Pressure, sub.LastLatitude, sub.LastLongitude, sub.Speed, sub.Throttle_Pos, sub.TimeStamp, sub.VehicleID }).FirstOrDefault();
+
+           return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
