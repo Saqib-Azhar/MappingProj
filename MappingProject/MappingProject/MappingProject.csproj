@@ -391,6 +391,13 @@
     <Content Include="Views\DriverDashboard\BlankPage.cshtml" />
     <Content Include="Views\ManagerDashboard\BlankPage.cshtml" />
     <Content Include="Views\AspNetVehicleLocationTables\ViewMap.cshtml" />
+    <Content Include="Views\AdminDashboard\_ViewStart.cshtml" />
+    <Content Include="Views\AspNetUsers\_ViewStart.cshtml" />
+    <Content Include="Views\AspNetUsers\BlankPage.cshtml" />
+    <Content Include="Views\AspNetVehicleLocationTables\_ViewStart.cshtml" />
+    <Content Include="Views\AspNetVehicleLocationTables\BlankPage.cshtml" />
+    <Content Include="Views\DriverDashboard\_ViewStart.cshtml" />
+    <Content Include="Views\ManagerDashboard\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

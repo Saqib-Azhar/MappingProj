@@ -79,6 +79,25 @@ namespace MappingProject.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    var userID = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+
+                    if (UserManager.IsInRole(userID, "Manager"))
+                    {
+                        System.Web.HttpContext.Current.Session["ManagerID"] = userID;
+                        return RedirectToAction("Dashboard", "ManagerDashboard");
+                    }
+                    else if (UserManager.IsInRole(userID, "Driver"))
+                    {
+                        System.Web.HttpContext.Current.Session["DriverID"] = userID;
+                        return RedirectToAction("Dashboard", "DriverDashboard");
+                    }
+                    else if (UserManager.IsInRole(userID, "SuperAdmin"))
+                    {
+                        System.Web.HttpContext.Current.Session["SuperAdminID"] = userID;
+                        return RedirectToAction("Dashboard", "AdminDashboard");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -430,10 +449,10 @@ namespace MappingProject.Controllers
 
             var userID = User.Identity.GetUserId();
 
-            if (UserManager.IsInRole(userID, "Admin"))
+            if (UserManager.IsInRole(userID, "Manager"))
             {
-                System.Web.HttpContext.Current.Session["AdminID"] = userID;
-                return RedirectToAction("Dashboard", "AdminDashboard");
+                System.Web.HttpContext.Current.Session["ManagerID"] = userID;
+                return RedirectToAction("Dashboard", "ManagerDashboard");
             }
             else if (UserManager.IsInRole(userID, "Driver"))
             {
