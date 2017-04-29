@@ -20,6 +20,7 @@ namespace MappingProject.Controllers
 
         public ViewResult ManagerIndex()
         {
+            ViewBag.RegisterPage = "ManagerRegister";
             return View("Index", db.AspNetUsers.Where(x => x.AspNetRoles.Select(y => y.Name).Contains("Manager")).ToList());
 
 
@@ -27,10 +28,44 @@ namespace MappingProject.Controllers
         
         public ViewResult DriverIndex()
         {
+            ViewBag.RegisterPage = "DriverRegister";
             return View("Index", db.AspNetUsers.Where(x => x.AspNetRoles.Select(y => y.Name).Contains("Driver")).ToList());
 
 
         }
+
+        ////////////////////////////////////////////////////Common Functions///////////////////////////////////////////////////////////
+
+            public class userdata
+        {
+            string UserName { set; get; }
+            string Id { get; set; }
+        }
+
+        [HttpGet]
+        public JsonResult DriversByManager(string id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<AspNetManager_Drivers> sub = db.AspNetManager_Drivers.Where(r => r.ManagerID == id).ToList();
+
+            List<AspNetUser> list = new List<AspNetUser>();
+            foreach(var item in sub)
+            {
+                var obj = db.AspNetUsers.FirstOrDefault(x => x.Id == item.DriverID);
+                var test = list.Find(s => s.Id == obj.Id);
+                if (test == null)
+                {
+                    list.Add(obj);
+                }
+            }
+
+            var driversList = new SelectList(list, "Id", "UserName");
+            return Json(driversList, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        /**********************************************************************************************+*****************************/
 
         /*****************************************************************************************************************************/
         // GET: AspNetUsers

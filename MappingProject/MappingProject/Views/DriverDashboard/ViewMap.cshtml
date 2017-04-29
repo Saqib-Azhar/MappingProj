@@ -1,0 +1,209 @@
+﻿@model IEnumerable<MappingProject.Models.AspNetVehicleLocationTable>
+
+@{
+    ViewBag.Title = "ViewUpdate";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/js/jquery-1.10.2.min.js"></script>
+<h2>ViewMap</h2>
+<!DOCTYPE html>
+<html>
+
+<body>
+    <table border="1" align="center">
+        <thead>
+            <tr>
+                <td align="center" colspan="9">
+                    <b><u>Vehicle ID: 2</u></b>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <b><u>Latitude</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Longitude</u></b>
+                </td>
+                <td align="center">
+                    <b><u>EngineRPM</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Speed</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Pressure</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Throttle Pos</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Type</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Rail Pressure</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Time Stamp</u></b>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center" id="latitudeDiv">
+                    @ViewBag.LastLatitude
+                </td>
+                <td align="center" id="longitudeDiv">
+                    @ViewBag.LastLongitude
+                </td>
+                <td align="center" id="enginerpmDiv">
+                    @ViewBag.EngineRPM
+                </td>
+                <td align="center" id="speedDiv">
+                    @ViewBag.Speed
+                </td>
+                <td align="center" id="fuelpressureDiv">
+                    @ViewBag.FuelPressure
+                </td>
+                <td align="center" id="throttle_posDiv">
+                    @ViewBag.Throttle_Pos
+                </td>
+                <td align="center" id="fueltypeDiv">
+                    @ViewBag.FuelType
+                </td>
+                <td align="center" id="fuel_rail_pressureDiv">
+                    @ViewBag.Fuel_Rail_Pressure
+                </td>
+                <td align="center" id="timestampDiv">
+                    @ViewBag.TimeStamp
+                </td>
+            </tr>
+            <tr>
+                <td id="map" style="width:900px;height:400px" colspan="9"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div></div>
+
+    <script>
+
+                function mapUpdater(latit,long)
+                {
+
+                    var myCenter = new google.maps.LatLng(latit, long);
+                    map.setCenter(myCenter);
+                    marker.setPosition(new google.maps.LatLng(latit,long));
+                }
+
+
+                var vehicleID = @ViewBag.CarID;
+                var fromLng = @ViewBag.LastLongitude;
+                var fromLat = @ViewBag.LastLatitude;
+                var toLng = @ViewBag.LastLongitude;
+                var toLat = @ViewBag.LastLatitude;
+
+
+                var longVar = @ViewBag.LastLongitude;
+                var latiVar = @ViewBag.LastLatitude;
+                var marker;
+                var map;
+                function myMap() {
+                  var mapCanvas = document.getElementById("map");
+                  var myCenter = new google.maps.LatLng(latiVar, longVar);
+                  var mapOptions = {center: myCenter, zoom: 11};
+                  map = new google.maps.Map(mapCanvas,mapOptions);
+                  marker = new google.maps.Marker({
+                    position: myCenter,
+                    animation: google.maps.Animation.BOUNCE
+                  });
+                  marker.setMap(map);
+                  setInterval(updateView,2000);
+                    //UpdateCurser();
+
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                  function updateView()
+                  {
+                      console.log("vehicle id is here: ",vehicleID);
+                      $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
+                                      { id: vehicleID }, function (data) {
+
+                                          console.log("data with stringify function : ",JSON.stringify(data));
+                                          console.log("data without stringify function: ",data);
+                                          toLng = data.LastLongitude;
+                                          toLat = data.LastLatitude;
+
+                                          var newEngineRPM = data.EngineRPM;
+                                          var newSpeed = data.Speed;
+                                          var newFuelPressure = data.FuelPressure;
+                                          var newThrottle_Pos = data.Throttle_Pos;
+                                          var newFuelType = data.FuelType;
+                                          var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
+                                          var newTimeStamp = data.TimeStamp;
+
+                                          $("#longitudeDiv").html(toLng);
+                                          $("#latitudeDiv").html(toLat);
+                                          $("#enginerpmDiv").html(newEngineRPM);
+                                          $("#speedDiv").html(newSpeed);
+                                          $("#fuel_rail_pressureDiv").html(newFuelPressure);
+                                          $("#throttle_posDiv").html(newThrottle_Pos);
+                                          $("#fueltypeDiv").html(newFuelType);
+                                          $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
+                                          $("#timestampDiv").html(newTimeStamp);
+
+                                          if(toLng!=fromLng || toLat!=fromLat)
+                                          {
+                                              fromLng=toLng;
+                                              fromLat=toLat;
+                                              mapUpdater(toLat,toLng);
+                                          }
+
+                                      });
+
+                      //// store a LatLng for each step of the animation
+                      //frames = [];
+                      //for (var percent = 0; percent < 1; percent += 0.001) {
+                      //    curLat = fromLat + percent * (toLat - fromLat);
+                      //    curLng = fromLng + percent * (toLng - fromLng);
+                      //    frames.push(new google.maps.LatLng(curLat, curLng));
+                      //}
+
+                      //move = function (marker, latlngs, index, wait, newDestination) {
+                      //    marker.setPosition(latlngs[index]);
+                      //    if (index != latlngs.length - 1) {
+                      //        // call the next "frame" of the animation
+                      //        setTimeout(function () {
+                      //            move(marker, latlngs, index + 1, wait, newDestination);
+                      //        }, wait);
+                      //    }
+                      //    //else {
+                      //    //    // assign new route
+                      //    //    marker.position = marker.destination;
+                      //    //    marker.destination = newDestination;
+                      //    //}
+                      //}
+
+                      //// begin animation, send back to origin after completion
+                      //move(marker, frames, 0, 20, marker.position);
+
+                  };
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+                }
+
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
+    <!--
+    To use this code on your website, get a free API key from Google.
+    Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+    -->
+
+</body>
+</html>
+

@@ -398,6 +398,8 @@
     <Content Include="Views\AspNetVehicleLocationTables\BlankPage.cshtml" />
     <Content Include="Views\DriverDashboard\_ViewStart.cshtml" />
     <Content Include="Views\ManagerDashboard\_ViewStart.cshtml" />
+    <Content Include="Views\DriverDashboard\ViewMap.cshtml" />
+    <Content Include="Views\AspNetVehicleLocationTables\FleetHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

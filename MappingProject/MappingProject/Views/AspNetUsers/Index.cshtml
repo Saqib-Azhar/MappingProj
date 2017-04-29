@@ -5,10 +5,10 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManagerIndex</h2>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+   <a href="@Url.Action(@ViewBag.RegisterPage, "AdminDashboard")">Create New</a>
 </p>
 <table class="table">
     <tr>

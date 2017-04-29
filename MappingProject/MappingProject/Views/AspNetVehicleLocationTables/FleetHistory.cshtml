@@ -1,0 +1,120 @@
+﻿<script src="~/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#ManagerID").click(function () {
+            var selectedManager = $("#ManagerID").val();
+            $.get('@Url.Action("DriversByManager","AspNetUsers")',
+                   { id: selectedManager }, function (data) {
+                       $('#DriverID').html('');
+                       $('#DriverID').prop('disabled', false);
+                       $.each(data, function (i, item) {
+                           $('#DriverID').append('<option value=' + item.Value + '>' + item.Text + '</option>');
+                       });
+
+                   });
+        });
+
+        
+        $("#DriverID").click(function () {
+            setInterval(updateHistory, 10000);
+        });
+
+        function updateHistory()
+        {
+            var selectedDriver = $("#DriverID").val();
+            $.get('@Url.Action("FleetHistoryByDriver", "AspNetVehicleLocationTables")',
+                    { id: selectedDriver }, function (data) {
+                        $('#HistoryTable').html(' ');
+                        $.each(data, function (i, item) {
+                            $('#HistoryTable').append('<tr><td>' + item.LastLatitude + '</td><td>' + item.LastLongitude + '</td><td>' + item.EngineRPM + '</td><td>' + item.Speed + '</td><td>' + item.FuelPressure + '</td><td>' + item.Throttle_Pos + '</td><td>' + item.FuelType + '</td><td>' + item.Fuel_Rail_Pressure + '</td><td>' + item.TimeStamp + '</td><td>' + item.VehicleID + '</td></tr>');
+                        });
+                    });
+        }
+
+
+    });
+
+
+</script>
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FleetHistory</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <div class="row">
+        <div class="form-group">
+            <lable class="control-label col-md-2"><b>Select Manager</b></lable>
+            <div class="col-md-10">
+                @Html.DropDownList("ManagerID", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <br />
+            <label class="control-label col-md-2"><b>Select Driver</b></label>
+            <div class="col-md-10">
+                <select class="form-control" id="DriverID" disabled></select>
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+    <table class="table table-bordered table-striped">
+    <tr>
+        <td>
+            Latitude
+        </td>
+        <td>
+            Longitude
+        </td>
+        <td>
+            EngineRPM
+        </td>
+        <td>
+            Speed
+        </td>
+        <td>
+            Fuel Pressure
+        </td>
+        <td>
+            Throttle Position
+        </td>
+        <td>
+            Fuel Type
+        </td>
+        <td>
+            Fuel Rail Pressure
+        </td>
+        <td>
+            Time
+        </td>
+        <td>
+            VehicleID
+        </td>
+        @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>*@
+    </tr>
+        <tbody id="HistoryTable"></tbody>
+
+    
+
+    </table>
+</body>
+</html>

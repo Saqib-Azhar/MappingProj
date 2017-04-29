@@ -84,8 +84,51 @@ namespace MappingProject.Controllers
 
            return Json(data, JsonRequestBehavior.AllowGet);
         }
-
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       
+        public ActionResult FleetHistory()
+        {
+
+            var managerDriverList = db.AspNetManager_Drivers.Select(s=>s.ManagerID);
+           
+            List<AspNetUser> UserList = new List<AspNetUser>();
+            foreach (var item in managerDriverList)
+            {
+                var obj = db.AspNetUsers.FirstOrDefault(s => s.Id == item);
+                var test = UserList.Find(s => s.Id == obj.Id);
+                if (test == null)
+                {
+                    UserList.Add(obj);
+                }
+            }
+
+            var list = new SelectList(UserList, "Id", "UserName");
+
+            ViewBag.ManagerID = list;
+            return View();
+        }
+        
+
+            [HttpGet]
+        public JsonResult FleetHistoryByDriver(string id)
+        {
+            ApplicationDbContext d = new ApplicationDbContext();
+
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var VehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == id);
+
+            //var HistoryLogs = new SelectList(db.AspNetVehicleLocationTables.Where(s => s.VehicleID == VehicleObj.VehicleID)).ToList();
+
+            var HistoryLogs = (from log in db.AspNetVehicleLocationTables
+                               where log.VehicleID == VehicleObj.VehicleID
+                               select new { log.Id, log.LastLatitude, log.LastLongitude,log.Speed,log.Throttle_Pos,log.TimeStamp,log.VehicleID,log.EngineRPM,log.FuelPressure,log.FuelType,log.Fuel_Rail_Pressure }).ToList();
+
+            return Json(HistoryLogs, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
