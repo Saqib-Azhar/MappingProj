@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MappingProject.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using System.Collections.Generic;
 
 namespace MappingProject.Controllers
 {
@@ -21,33 +21,6 @@ namespace MappingProject.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private MappingDatabaseEntities db = new MappingDatabaseEntities();
-
-        /*********************************************************************************/
-        
-        public ActionResult ViewMap()
-        {
-            var currentUser = User.Identity.GetUserId();
-
-            var DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == currentUser);
-            int? id = DriverVehicleObj.VehicleID;
-            var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(x => x.VehicleID == id);
-            ViewBag.LastLatitude = LocationObj.LastLatitude;
-            ViewBag.LastLongitude = LocationObj.LastLongitude;
-            ViewBag.CarID = LocationObj.VehicleID;
-
-            ViewBag.TimeStamp = LocationObj.TimeStamp;
-            ViewBag.EngineRPM = LocationObj.EngineRPM;
-            ViewBag.Speed = LocationObj.Speed;
-            ViewBag.FuelPressure = LocationObj.FuelPressure;
-            ViewBag.Throttle_Pos = LocationObj.Throttle_Pos;
-            ViewBag.FuelType = LocationObj.FuelType;
-            ViewBag.Fuel_Rail_Pressure = LocationObj.Fuel_Rail_Pressure;
-
-            return View();
-        }
-
-        /***********************************************************************************/
-
         public DriverDashboardController()
         {
         }
@@ -90,11 +63,45 @@ namespace MappingProject.Controllers
         }
 
 
+        /*********************************************************************************/
+
+        public ActionResult ViewMap()
+        {
+            var currentUser = User.Identity.GetUserId();
+
+            var DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == currentUser);
+            int? id = DriverVehicleObj.VehicleID;
+            var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(x => x.VehicleID == id);
+            ViewBag.LastLatitude = LocationObj.LastLatitude;
+            ViewBag.LastLongitude = LocationObj.LastLongitude;
+            ViewBag.CarID = LocationObj.VehicleID;
+
+            ViewBag.TimeStamp = LocationObj.TimeStamp;
+            ViewBag.EngineRPM = LocationObj.EngineRPM;
+            ViewBag.Speed = LocationObj.Speed;
+            ViewBag.FuelPressure = LocationObj.FuelPressure;
+            ViewBag.Throttle_Pos = LocationObj.Throttle_Pos;
+            ViewBag.FuelType = LocationObj.FuelType;
+            ViewBag.Fuel_Rail_Pressure = LocationObj.Fuel_Rail_Pressure;
+
+            return View();
+        }
+
+        
+        public ActionResult FleetHistory()
+        {
+            ViewBag.DriverID = User.Identity.GetUserId();
+            return View();
+        }
+
+
+
         public ActionResult Dashboard()
         {
             return View("BlankPage");
         }
 
+        /***********************************************************************************/
 
 
 

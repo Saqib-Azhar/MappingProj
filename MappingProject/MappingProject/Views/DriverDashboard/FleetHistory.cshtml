@@ -1,0 +1,72 @@
+﻿<script src="~/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+         $("#showi").click(function () {
+                console.log("control at showi");
+                updateHistory();
+                setInterval(updateHistory, 10000);
+            });
+
+
+            function updateHistory()
+            {
+                var selectedDriver = @ViewBag.DriverID;
+                $.get('@Url.Action("FleetHistoryByDriver", "AspNetVehicleLocationTables")',
+                        { id: selectedDriver }, function (data) {
+                            $('#HistoryTable').html(' ');
+                            $.each(data, function (i, item) {
+                                $('#HistoryTable').append('<tr><td>' + item.LastLatitude + '</td><td>' + item.LastLongitude + '</td><td>' + item.EngineRPM + '</td><td>' + item.Speed + '</td><td>' + item.FuelPressure + '</td><td>' + item.Throttle_Pos + '</td><td>' + item.FuelType + '</td><td>' + item.Fuel_Rail_Pressure + '</td><td>' + item.TimeStamp + '</td><td>' + item.VehicleID + '</td></tr>');
+                            });
+                        });
+            }
+
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FleetHistory</title>
+</head>
+<body>
+    <br /><br />
+    <button id="showi">Show</button><br />
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>
+                Latitude
+            </td>
+            <td>
+                Longitude
+            </td>
+            <td>
+                EngineRPM
+            </td>
+            <td>
+                Speed
+            </td>
+            <td>
+                Fuel Pressure
+            </td>
+            <td>
+                Throttle Position
+            </td>
+            <td>
+                Fuel Type
+            </td>
+            <td>
+                Fuel Rail Pressure
+            </td>
+            <td>
+                Time
+            </td>
+            <td>
+                VehicleID
+            </td>
+
+        </tr>
+        <tbody id="HistoryTable"></tbody>
+
+
+
+    </table>
+</body>
+</html>

@@ -55,6 +55,20 @@ namespace MappingProject.Controllers
             return View();
         }
 
+        
+        public JsonResult MapData(string id)
+        {
+            var vehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == id);
+            
+            var data = (from sub in db.AspNetVehicleLocationTables
+                        where sub.VehicleID == vehicleObj.VehicleID
+                        orderby (sub.Id) descending
+                        select new { sub.EngineRPM, sub.FuelPressure, sub.FuelType, sub.Fuel_Rail_Pressure, sub.LastLatitude, sub.LastLongitude, sub.Speed, sub.Throttle_Pos, sub.TimeStamp, sub.VehicleID }).FirstOrDefault();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         [Authorize]
         public void UpdateDB(readings reading)
