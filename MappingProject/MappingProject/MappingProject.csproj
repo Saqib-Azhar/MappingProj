@@ -261,6 +261,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.min.css" />
+    <Content Include="Content\demo.css" />
+    <Content Include="Content\light-bootstrap-dashboard.css" />
+    <Content Include="Content\pe-icon-7-stroke.css" />
+    <Content Include="fonts\Pe-icon-7-stroke.svg" />
     <Content Include="Images\36e917d784a5280d487bb9f1d988b72f.jpg" />
     <Content Include="Images\6qyIbi.jpg" />
     <Content Include="Images\75868.jpg" />
@@ -282,7 +287,15 @@
     <Content Include="Images\Low-Poly-Shattered-World-Map-No-Background-2400px.png" />
     <Content Include="Images\Sweet-Tiled-World-Map-No-Background.png" />
     <Content Include="Images\vintage-world-map-facebook-cover-timeline-banner-for-fb.jpg" />
+    <Content Include="js\bootstrap-checkbox-radio-switch.js" />
+    <Content Include="js\bootstrap-notify.js" />
+    <Content Include="js\bootstrap-select.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\chartist.min.js" />
+    <Content Include="js\demo.js" />
+    <Content Include="js\jquery-1.10.2.js" />
     <Content Include="js\jquery-1.10.2.min.js" />
+    <Content Include="js\light-bootstrap-dashboard.js" />
     <Content Include="js\MooTools-Core-1.6.0.js" />
     <Content Include="Images\Prismatic-Hexagonal-World-Map-6-No-Background.png" />
     <Content Include="Models\MappingDatabaseModel.Context.tt">
@@ -310,6 +323,11 @@
     <Content Include="Models\MappingDatabaseModel.edmx.diagram">
       <DependentUpon>MappingDatabaseModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\.DS_Store" />
+    <Content Include="fonts\.DS_Store" />
+    <Content Include="fonts\Pe-icon-7-stroke.eot" />
+    <Content Include="fonts\Pe-icon-7-stroke.ttf" />
+    <Content Include="fonts\Pe-icon-7-stroke.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -414,7 +432,10 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="img\" />
+    <Folder Include="sass\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
