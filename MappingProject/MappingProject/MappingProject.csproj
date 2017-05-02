@@ -262,6 +262,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.min.css" />
+    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\demo.css" />
+    <Content Include="Content\css\light-bootstrap-dashboard.css" />
+    <Content Include="Content\css\pe-icon-7-stroke.css" />
     <Content Include="Content\demo.css" />
     <Content Include="Content\light-bootstrap-dashboard.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
@@ -287,6 +292,26 @@
     <Content Include="Images\Low-Poly-Shattered-World-Map-No-Background-2400px.png" />
     <Content Include="Images\Sweet-Tiled-World-Map-No-Background.png" />
     <Content Include="Images\vintage-world-map-facebook-cover-timeline-banner-for-fb.jpg" />
+    <Content Include="img\default-avatar.png" />
+    <Content Include="img\faces\face-0.jpg" />
+    <Content Include="img\faces\face-1.jpg" />
+    <Content Include="img\faces\face-2.jpg" />
+    <Content Include="img\faces\face-3.jpg" />
+    <Content Include="img\faces\face-4.jpg" />
+    <Content Include="img\faces\face-5.jpg" />
+    <Content Include="img\faces\face-6.jpg" />
+    <Content Include="img\faces\face-7.jpg" />
+    <Content Include="img\faces\tim_vector.jpe" />
+    <Content Include="img\favicon.ico" />
+    <Content Include="img\loading-bubbles.svg" />
+    <Content Include="img\mask.png" />
+    <Content Include="img\new_logo.png" />
+    <Content Include="img\sidebar-1.jpg" />
+    <Content Include="img\sidebar-2.jpg" />
+    <Content Include="img\sidebar-3.jpg" />
+    <Content Include="img\sidebar-4.jpg" />
+    <Content Include="img\sidebar-5.jpg" />
+    <Content Include="img\tim_80x80.png" />
     <Content Include="js\bootstrap-checkbox-radio-switch.js" />
     <Content Include="js\bootstrap-notify.js" />
     <Content Include="js\bootstrap-select.js" />
@@ -328,6 +353,58 @@
     <Content Include="fonts\Pe-icon-7-stroke.eot" />
     <Content Include="fonts\Pe-icon-7-stroke.ttf" />
     <Content Include="fonts\Pe-icon-7-stroke.woff" />
+    <Content Include="Content\css\.DS_Store" />
+    <Content Include="img\.DS_Store" />
+    <Content Include="img\faces\.DS_Store" />
+    <Content Include="img\faces\Thumbs.db" />
+    <Content Include="img\Thumbs.db" />
+    <Content Include="sass\.DS_Store" />
+    <Content Include="sass\lbd\.DS_Store" />
+    <Content Include="sass\lbd\mixins\_buttons.scss" />
+    <Content Include="sass\lbd\mixins\_cards.scss" />
+    <Content Include="sass\lbd\mixins\_chartist.scss" />
+    <Content Include="sass\lbd\mixins\_icons.scss" />
+    <Content Include="sass\lbd\mixins\_inputs.scss" />
+    <Content Include="sass\lbd\mixins\_labels.scss" />
+    <Content Include="sass\lbd\mixins\_morphing-buttons.scss" />
+    <Content Include="sass\lbd\mixins\_navbars.scss" />
+    <Content Include="sass\lbd\mixins\_social-buttons.scss" />
+    <Content Include="sass\lbd\mixins\_tabs.scss" />
+    <Content Include="sass\lbd\mixins\_transparency.scss" />
+    <Content Include="sass\lbd\mixins\_vendor-prefixes.scss" />
+    <Content Include="sass\lbd\_alerts.scss" />
+    <Content Include="sass\lbd\_buttons.scss" />
+    <Content Include="sass\lbd\_cards.scss" />
+    <Content Include="sass\lbd\_carousel.scss" />
+    <Content Include="sass\lbd\_chartist.scss" />
+    <Content Include="sass\lbd\_checkbox-radio-switch.scss" />
+    <Content Include="sass\lbd\_collapse.scss" />
+    <Content Include="sass\lbd\_datepicker.scss" />
+    <Content Include="sass\lbd\_dropdown.scss" />
+    <Content Include="sass\lbd\_flexisel.scss" />
+    <Content Include="sass\lbd\_footers.scss" />
+    <Content Include="sass\lbd\_icons.scss" />
+    <Content Include="sass\lbd\_inputs.scss" />
+    <Content Include="sass\lbd\_labels.scss" />
+    <Content Include="sass\lbd\_media.scss" />
+    <Content Include="sass\lbd\_misc.scss" />
+    <Content Include="sass\lbd\_mixins.scss" />
+    <Content Include="sass\lbd\_modal.scss" />
+    <Content Include="sass\lbd\_morphing-buttons.scss" />
+    <Content Include="sass\lbd\_navbars.scss" />
+    <Content Include="sass\lbd\_progress-bars.scss" />
+    <Content Include="sass\lbd\_responsive.scss" />
+    <Content Include="sass\lbd\_sections.scss" />
+    <Content Include="sass\lbd\_sidebar-and-main-panel.scss" />
+    <Content Include="sass\lbd\_sliders.scss" />
+    <Content Include="sass\lbd\_social-buttons.scss" />
+    <Content Include="sass\lbd\_tables.scss" />
+    <Content Include="sass\lbd\_tabs-navs-pagination.scss" />
+    <Content Include="sass\lbd\_tags.scss" />
+    <Content Include="sass\lbd\_tooltips-and-popovers.scss" />
+    <Content Include="sass\lbd\_typography.scss" />
+    <Content Include="sass\lbd\_variables.scss" />
+    <Content Include="sass\light-bootstrap-dashboard.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -432,10 +509,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="img\" />
-    <Folder Include="sass\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
