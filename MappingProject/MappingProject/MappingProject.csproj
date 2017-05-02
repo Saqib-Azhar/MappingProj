@@ -497,6 +497,7 @@
     <Content Include="Views\AspNetVehicleLocationTables\FleetHistory.cshtml" />
     <Content Include="Views\DriverDashboard\FleetHistory.cshtml" />
     <Content Include="Views\AdminDashboard\ViewFleetMap.cshtml" />
+    <Content Include="Views\AspNetVehicleLocationTables\UpdateValues.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

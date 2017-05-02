@@ -116,6 +116,7 @@
                        toLng = data.LastLongitude;
                        toLat = data.LastLatitude;
 
+                       $("#VehicleIDval").html('<b>'+"Vehicle ID: "+ vehicleID+'</b>')
 
                        longVar = data.LastLongitude;
                        latiVar = data.LastLatitude;
@@ -175,8 +176,8 @@
         <table border="1" align="center">
             <thead>
                 <tr>
-                    <td align="center" colspan="9">
-                        <b><u>Vehicle ID: 2</u></b>
+                    <td align="center" colspan="9" id="VehicleIDval">
+                        <b><u>Vehicle ID: </u></b>
                     </td>
                 </tr>
                 <tr>
