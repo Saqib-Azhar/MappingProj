@@ -86,7 +86,6 @@ namespace MappingProject.Controllers
 
             return View();
         }
-C:\Users\Muna Bhai\Source\Repos\MappingProj\MappingProject\MappingProject\js\
         
         public ActionResult FleetHistory()
         {
