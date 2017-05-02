@@ -16,6 +16,31 @@
 
                    });
         });
+        var intervalID;
+
+        $("#DriverID").click(function () {
+            //clearInterval(intervalID);
+            var selectedDriver = $("#DriverID").val();
+            $.get('@Url.Action("MapData", "AspNetVehicleLocationTables")',
+                   { id: selectedDriver }, function (data) {
+                       vehicleID = data.VehicleID;
+                       fromLng = data.LastLongitude;
+                       fromLat = data.LastLatitude;
+                       toLng = data.LastLongitude;
+                       toLat = data.LastLatitude;
+
+                       $("#VehicleIDval").html('<b>' + "Vehicle: " + vehicleID + '</b>');
+
+                       longVar = data.LastLongitude;
+                       latiVar = data.LastLatitude;
+                       marker;
+                       map;
+                       myMap();
+
+                   });
+
+        });
+
         function mapUpdater(latit, long) {
 
             var myCenter = new google.maps.LatLng(latit, long);
@@ -32,7 +57,7 @@
                 animation: google.maps.Animation.BOUNCE
             });
             marker.setMap(map);
-            setInterval(updateView, 2000);
+            intervalID = setInterval(updateView, 2000);
             //UpdateCurser();
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +65,7 @@
 
 
             function updateView() {
-                console.log("vehicle id is here: ", vehicleID);
+                console.log("vehicle id here is: ", vehicleID);
                 $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
                                 { id: vehicleID }, function (data) {
 
@@ -98,37 +123,8 @@
 
 
 
-
-        $("#DriverID").click(function () {
-            var selectedDriver = $("#DriverID").val();
-            $.get('@Url.Action("MapData", "AspNetVehicleLocationTables")',
-                   { id: selectedDriver }, function (data) {
-
-                       console.log(data);
-                       ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-                       
-
-
-                       vehicleID = data.VehicleID;
-                       fromLng = data.LastLongitude;
-                       fromLat = data.LastLatitude;
-                       toLng = data.LastLongitude;
-                       toLat = data.LastLatitude;
-
                        $("#VehicleIDval").html('<b>'+"Vehicle ID: "+ vehicleID+'</b>')
 
-                       longVar = data.LastLongitude;
-                       latiVar = data.LastLatitude;
-                       marker;
-                       map;
-                       myMap();
-                       
-
-
-                   });
-
-        });
       });
 
 

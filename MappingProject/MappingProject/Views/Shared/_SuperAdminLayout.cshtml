@@ -14,18 +14,17 @@
     <link href="~/Content/css/animate.min.css" rel="stylesheet" />
     <!--  Light Bootstrap Table core CSS    -->
     <link href="~/Content/css/light-bootstrap-dashboard.css" rel="stylesheet" />
-
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="~/Content/css/demo.css" rel="stylesheet" />
+    <!--link href="~/Content/css/demo.css" rel="stylesheet" -->
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="~/Content/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <!--<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    --><link href="~/Content/css/pe-icon-7-stroke.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+        <div class="sidebar" data-color="purple"/>
             <!--
 
                 Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
@@ -73,7 +72,7 @@
                     <li>
                         <a href="@Url.Action("FleetHistory","AspNetVehicleLocationTables")">
                             <i class="pe-7s-car"></i>
-                            <p>View Fleets</p>
+                            <p>View Fleets History</p>
                         </a>
                     </li>
 
@@ -152,20 +151,20 @@
 
 </body>
 <!--   Core JS Files   -->
-<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="~/Content/js/jquery-1.10.2.js"></script>
+<script src="~/Content/js/bootstrap.min.js"></script>
 <!--  Checkbox, Radio & Switch Plugins -->
-<script src="assets/js/bootstrap-checkbox-radio-switch.js"></script>
-<!--  Charts Plugin -->
-<script src="assets/js/chartist.min.js"></script>
+<script src="~/Content/js/bootstrap-checkbox-radio-switch.js"></script>
+<!--  Charts Plugin 
+<script src="~/Content/js/chartist.min.js"></script>-->
 <!--  Notifications Plugin    -->
-<script src="assets/js/bootstrap-notify.js"></script>
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="~/Content/js/bootstrap-notify.js"></script>
+<!--  Google Maps Plugin    
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-<script src="assets/js/light-bootstrap-dashboard.js"></script>
-<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script src="assets/js/demo.js"></script>
+<script src="~/Content/js/light-bootstrap-dashboard.js"></script>
+<!-- Light Bootstrap Table DEMO methods, don't include it in your project!
+<script src="~/Content/js/demo.js"></script> 
 <script type="text/javascript">
     	$(document).ready(function(){
 
@@ -180,6 +179,6 @@
                 timer: 4000
             });
 
-    	});
+    	});-->
 </script>
 </html>

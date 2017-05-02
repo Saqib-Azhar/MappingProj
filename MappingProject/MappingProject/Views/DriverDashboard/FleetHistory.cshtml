@@ -1,15 +1,13 @@
 ﻿<script src="~/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
-         $("#showi").click(function () {
-                console.log("control at showi");
-                updateHistory();
-                setInterval(updateHistory, 10000);
-            });
-
+        
+         var interval1 = setInterval(updateHistory, 10000);
 
             function updateHistory()
-            {
+         {
+                console.log("control is in the function");
                 var selectedDriver = @ViewBag.DriverID;
+                console.log("driver id",selectedDriver);
                 $.get('@Url.Action("FleetHistoryByDriver", "AspNetVehicleLocationTables")',
                         { id: selectedDriver }, function (data) {
                             $('#HistoryTable').html(' ');
@@ -28,7 +26,7 @@
 </head>
 <body>
     <br /><br />
-    <button id="showi">Show</button><br />
+
     <table class="table table-bordered table-striped">
         <tr>
             <td>

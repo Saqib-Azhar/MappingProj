@@ -1,0 +1,81 @@
+﻿<script src="~/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#ManagerID").click(function () {
+            var selectedManager = $("#ManagerID").val();
+            $.get('@Url.Action("DriversIndexByManager", "AspNetUsers")',
+                   { id: selectedManager }, function (data) {
+                       $('#DriverTable').html(' ');
+                       $.each(data, function (i, item) {
+                           console.log(JSON.stringify(item));
+                           $('#DriverTable').append('<tr><td>' + item.UserName + '</td><td>' + item.Email + '</td><td>' + item.PhoneNumber + '</td><td>' + item.VehicleID + '</td></tr>');
+                       });
+
+                   });
+        });
+
+
+       
+
+    });
+
+
+</script>
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FleetHistory</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <div class="row">
+        <div class="form-group">
+            <lable class="control-label col-md-2"><b>Select Manager</b></lable>
+            <div class="col-md-10">
+                @Html.DropDownList("ManagerID", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <br />
+        
+
+    </div>
+    <br />
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>
+                Driver Name
+            </td>
+            <td>
+                Email ID
+            </td>
+            <td>
+                Phone Number
+            </td>
+            <td>
+                VehicleID
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                </td>*@
+        </tr>
+        <tbody id="DriverTable"></tbody>
+
+
+
+    </table>
+</body>
+</html>

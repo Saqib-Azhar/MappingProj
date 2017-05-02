@@ -86,7 +86,6 @@ namespace MappingProject.Controllers
 
             return View();
         }
-
         
         public ActionResult FleetHistory()
         {

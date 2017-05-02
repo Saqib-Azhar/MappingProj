@@ -25,18 +25,40 @@ namespace MappingProject.Controllers
 
 
         }
-        
+
+        //public ViewResult DriverIndex()
+        //{
+        //    ViewBag.RegisterPage = "DriverRegister";
+        //    return View("Index", db.AspNetUsers.Where(x => x.AspNetRoles.Select(y => y.Name).Contains("Driver")).ToList());
+
+
+        //}
+
         public ViewResult DriverIndex()
         {
-            ViewBag.RegisterPage = "DriverRegister";
-            return View("Index", db.AspNetUsers.Where(x => x.AspNetRoles.Select(y => y.Name).Contains("Driver")).ToList());
+            var managerDriverList = db.AspNetManager_Drivers.Select(s=>s.ManagerID);
+           
+            List<AspNetUser> UserList = new List<AspNetUser>();
+            foreach (var item in managerDriverList)
+            {
+                var obj = db.AspNetUsers.FirstOrDefault(s => s.Id == item);
+                var test = UserList.Find(s => s.Id == obj.Id);
+                if (test == null)
+                {
+                    UserList.Add(obj);
+                }
+            }
 
+            var list = new SelectList(UserList, "Id", "UserName");
+
+            ViewBag.ManagerID = list;
+            return View();
 
         }
 
         ////////////////////////////////////////////////////Common Functions///////////////////////////////////////////////////////////
 
-            public class userdata
+        public class userdata
         {
             string UserName { set; get; }
             string Id { get; set; }
@@ -64,6 +86,74 @@ namespace MappingProject.Controllers
 
         }
 
+        //[HttpGet]
+        //public JsonResult DriversIndexByManager(string id)
+        //{
+        //    db.Configuration.ProxyCreationEnabled = false;
+        //    List<AspNetManager_Drivers> sub = db.AspNetManager_Drivers.Where(r => r.ManagerID == id).ToList();
+
+        //    List<AspNetUser> list = new List<AspNetUser>();
+        //    foreach (var item in sub)
+        //    {
+        //        var obj = db.AspNetUsers.FirstOrDefault(x => x.Id == item.DriverID);
+        //        var test = list.Find(s => s.Id == obj.Id);
+        //        if (test == null)
+        //        {
+        //            list.Add(obj);
+        //        }
+        //    }
+        //    //var HistoryLogs = (from log in db.AspNetVehicleLocationTables
+        //    //                   where log.VehicleID == VehicleObj.VehicleID
+        //    //                   select new { log.Id, log.LastLatitude, log.LastLongitude, log.Speed, log.Throttle_Pos, log.TimeStamp, log.VehicleID, log.EngineRPM, log.FuelPressure, log.FuelType, log.Fuel_Rail_Pressure }).ToList();
+
+
+
+        //    var driversList = list;
+
+
+        //    return Json(driversList, JsonRequestBehavior.AllowGet);
+
+        //}
+
+        public class DriverVehicle
+        {
+            public string UserName { get; set; }
+            public string ID { get; set; }
+            public string Email { get; set; }
+            public string PhoneNumber { get; set; }
+            public int? VehicleID { get; set; }
+        }
+
+
+        [HttpGet]
+        public JsonResult DriversIndexByManager(string id)
+        {
+            List<DriverVehicle> data = new List<DriverVehicle>();
+
+            db.Configuration.ProxyCreationEnabled = false;
+            List<AspNetManager_Drivers> sub = db.AspNetManager_Drivers.Where(r => r.ManagerID == id).ToList();
+
+
+            foreach(var item in sub)
+            {
+                var driverobj = db.AspNetUsers.FirstOrDefault(x => x.Id == item.DriverID);
+                var vehicleobj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == driverobj.Id);
+                DriverVehicle drivervehicleObj = new DriverVehicle();
+                drivervehicleObj.ID = driverobj.Id;
+                drivervehicleObj.UserName = driverobj.UserName;
+                drivervehicleObj.PhoneNumber = driverobj.PhoneNumber;
+                drivervehicleObj.Email = driverobj.Email;
+                drivervehicleObj.VehicleID = vehicleobj.VehicleID;
+
+                var test = data.Find(s => s.ID == driverobj.Id);
+                if (test == null)
+                {
+                    data.Add(drivervehicleObj);
+                }
+            }
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
 
         /**********************************************************************************************+*****************************/
 
