@@ -3,8 +3,7 @@
     $(document).ready(function () {
 
 
-        $("#ManagerID").click(function () {
-            var selectedManager = $("#ManagerID").val();
+            var selectedManager = '@(ViewBag.ManagerID)';
             $.get('@Url.Action("DriversIndexByManager", "AspNetUsers")',
                    { id: selectedManager }, function (data) {
                        $('#DriverTable').html(' ');
@@ -14,10 +13,9 @@
                        });
 
                    });
-        });
+        
 
 
-       
 
     });
 
@@ -37,17 +35,10 @@
 </head>
 <body>
     <p>
-        <a href="@Url.Action("DriverRegister", "AdminDashboard")">Create New</a>
+        @Html.ActionLink("Create New", "Create")
     </p>
     <div class="row">
-        <div class="form-group">
-            <lable class="control-label col-md-2"><b>Select Manager</b></lable>
-            <div class="col-md-10">
-                @Html.DropDownList("ManagerID", null, htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
-        <br />
-        
+       
 
     </div>
     <br />
@@ -66,11 +57,7 @@
             <td>
                 VehicleID
             </td>
-            @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-                </td>*@
+        
         </tr>
         <tbody id="DriverTable"></tbody>
 

@@ -6,7 +6,7 @@
             function updateHistory()
          {
                 console.log("control is in the function");
-                var selectedDriver = @ViewBag.DriverID;
+                var selectedDriver = '@(ViewBag.DriverID)';
                 console.log("driver id",selectedDriver);
                 $.get('@Url.Action("FleetHistoryByDriver", "AspNetVehicleLocationTables")',
                         { id: selectedDriver }, function (data) {

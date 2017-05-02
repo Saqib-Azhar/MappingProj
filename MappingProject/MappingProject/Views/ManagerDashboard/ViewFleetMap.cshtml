@@ -1,0 +1,243 @@
+﻿<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
+<script src="~/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+         GetDrivers();
+            function GetDrivers(){
+                selectedManager = '@(ViewBag.ManagerID)';
+                console.log(selectedManager);
+            $.get('@Url.Action("DriversByManager","AspNetUsers")',
+                   { id: selectedManager }, function (data) {
+                       $('#DriverID').html('');
+                       $('#DriverID').prop('disabled', false);
+                       $.each(data, function (i, item) {
+                           $('#DriverID').append('<option value=' + item.Value + '>' + item.Text + '</option>');
+                       });
+
+                   });}
+        var intervalID;
+
+        $("#DriverID").click(function () {
+            //clearInterval(intervalID);
+            var selectedDriver = $("#DriverID").val();
+            $.get('@Url.Action("MapData", "AspNetVehicleLocationTables")',
+                   { id: selectedDriver }, function (data) {
+                       vehicleID = data.VehicleID;
+                       fromLng = data.LastLongitude;
+                       fromLat = data.LastLatitude;
+                       toLng = data.LastLongitude;
+                       toLat = data.LastLatitude;
+
+                       $("#VehicleIDval").html('<b>' + "Vehicle: " + vehicleID + '</b>');
+
+                       longVar = data.LastLongitude;
+                       latiVar = data.LastLatitude;
+                       marker;
+                       map;
+                       myMap();
+
+                   });
+
+        });
+
+        function mapUpdater(latit, long) {
+
+            var myCenter = new google.maps.LatLng(latit, long);
+            map.setCenter(myCenter);
+            marker.setPosition(new google.maps.LatLng(latit, long));
+        }
+        function myMap() {
+            var mapCanvas = document.getElementById("map");
+            var myCenter = new google.maps.LatLng(latiVar, longVar);
+            var mapOptions = { center: myCenter, zoom: 11 };
+            map = new google.maps.Map(mapCanvas, mapOptions);
+            marker = new google.maps.Marker({
+                position: myCenter,
+                animation: google.maps.Animation.BOUNCE
+            });
+            marker.setMap(map);
+            intervalID = setInterval(updateView, 2000);
+            //UpdateCurser();
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+            function updateView() {
+                console.log("vehicle id here is: ", vehicleID);
+                $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
+                                { id: vehicleID }, function (data) {
+
+                                    console.log("data with stringify function : ", JSON.stringify(data));
+                                    console.log("data without stringify function: ", data);
+                                    toLng = data.LastLongitude;
+                                    toLat = data.LastLatitude;
+
+                                    var newEngineRPM = data.EngineRPM;
+                                    var newSpeed = data.Speed;
+                                    var newFuelPressure = data.FuelPressure;
+                                    var newThrottle_Pos = data.Throttle_Pos;
+                                    var newFuelType = data.FuelType;
+                                    var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
+                                    var newTimeStamp = data.TimeStamp;
+
+                                    $("#fuelpressureDiv").html(newFuelPressure);
+                                    $("#longitudeDiv").html(toLng);
+                                    $("#latitudeDiv").html(toLat);
+                                    $("#enginerpmDiv").html(newEngineRPM);
+                                    $("#speedDiv").html(newSpeed);
+                                    $("#fuel_rail_pressureDiv").html(newFuelPressure);
+                                    $("#throttle_posDiv").html(newThrottle_Pos);
+                                    $("#fueltypeDiv").html(newFuelType);
+                                    $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
+                                    $("#timestampDiv").html(newTimeStamp);
+
+                                    if (toLng != fromLng || toLat != fromLat) {
+                                        fromLng = toLng;
+                                        fromLat = toLat;
+                                        mapUpdater(toLat, toLng);
+                                    }
+
+                                });
+
+            };
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        }
+
+        var vehicleID;
+        var fromLng;
+        var fromLat;
+        var toLng;
+        var toLat;
+
+
+        var longVar;
+        var latiVar;
+        var marker;
+        var map;
+
+
+
+
+                       $("#VehicleIDval").html('<b>'+"Vehicle ID: "+ vehicleID+'</b>')
+
+      });
+
+
+
+
+
+
+</script>
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FleetHistory</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <div class="row">
+        <br />
+        <div class="form-group">
+            <br />
+            <label class="control-label col-md-2"><b>Select Driver</b></label>
+            <div class="col-md-10">
+                <select class="form-control" id="DriverID" disabled></select>
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+
+    <table border="1" align="center">
+        <thead>
+            <tr>
+                <td align="center" colspan="9" id="VehicleIDval">
+                    <b><u>Vehicle ID: </u></b>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <b><u>Latitude</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Longitude</u></b>
+                </td>
+                <td align="center">
+                    <b><u>EngineRPM</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Speed</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Pressure</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Throttle Pos</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Type</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Rail Pressure</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Time Stamp</u></b>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center" id="latitudeDiv">
+                    @ViewBag.LastLatitude
+                </td>
+                <td align="center" id="longitudeDiv">
+                    @ViewBag.LastLongitude
+                </td>
+                <td align="center" id="enginerpmDiv">
+                    @ViewBag.EngineRPM
+                </td>
+                <td align="center" id="speedDiv">
+                    @ViewBag.Speed
+                </td>
+                <td align="center" id="fuelpressureDiv">
+                    @ViewBag.FuelPressure
+                </td>
+                <td align="center" id="throttle_posDiv">
+                    @ViewBag.Throttle_Pos
+                </td>
+                <td align="center" id="fueltypeDiv">
+                    @ViewBag.FuelType
+                </td>
+                <td align="center" id="fuel_rail_pressureDiv">
+                    @ViewBag.Fuel_Rail_Pressure
+                </td>
+                <td align="center" id="timestampDiv">
+                    @ViewBag.TimeStamp
+                </td>
+            </tr>
+            <tr>
+                <td id="map" style="width:900px;height:400px" colspan="9"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div></div>
+
+
+</body>
+</html>
+
