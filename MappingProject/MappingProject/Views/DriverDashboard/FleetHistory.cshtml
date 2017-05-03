@@ -1,12 +1,12 @@
 ﻿<script src="~/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
         
-         var interval1 = setInterval(updateHistory, 10000);
-
+         //var interval1 = setInterval(updateHistory, 10000);
+    updateHistory();
             function updateHistory()
          {
                 console.log("control is in the function");
-                var selectedDriver = @ViewBag.DriverID;
+                var selectedDriver ="@ViewBag.DriverID";
                 console.log("driver id",selectedDriver);
                 $.get('@Url.Action("FleetHistoryByDriver", "AspNetVehicleLocationTables")',
                         { id: selectedDriver }, function (data) {
