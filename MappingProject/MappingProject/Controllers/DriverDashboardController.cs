@@ -74,7 +74,7 @@ namespace MappingProject.Controllers
             var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(x => x.VehicleID == id);
             ViewBag.LastLatitude = LocationObj.LastLatitude;
             ViewBag.LastLongitude = LocationObj.LastLongitude;
-            ViewBag.CarID = LocationObj.VehicleID;
+            ViewBag.CarID = id;
 
             ViewBag.TimeStamp = LocationObj.TimeStamp;
             ViewBag.EngineRPM = LocationObj.EngineRPM;
@@ -84,7 +84,23 @@ namespace MappingProject.Controllers
             ViewBag.FuelType = LocationObj.FuelType;
             ViewBag.Fuel_Rail_Pressure = LocationObj.Fuel_Rail_Pressure;
 
+
+
+            //var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(x => x.VehicleID == id);
+            //ViewBag.LastLatitude = LocationObj.LastLatitude;
+            //ViewBag.LastLongitude = LocationObj.LastLongitude;
+            //ViewBag.CarID = LocationObj.VehicleID;
+
+            //ViewBag.TimeStamp = LocationObj.TimeStamp;
+            //ViewBag.EngineRPM = LocationObj.EngineRPM;
+            //ViewBag.Speed = LocationObj.Speed;
+            //ViewBag.FuelPressure = LocationObj.FuelPressure;
+            //ViewBag.Throttle_Pos = LocationObj.Throttle_Pos;
+            //ViewBag.FuelType = LocationObj.FuelType;
+            //ViewBag.Fuel_Rail_Pressure = LocationObj.Fuel_Rail_Pressure;
+
             return View();
+          //  return RedirectToAction("ViewMap", "AspNetVehicleLocationTables" ,new { id = id });
         }
         
         public ActionResult FleetHistory()
