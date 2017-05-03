@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MappingProject.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using System.Collections.Generic;
 
 namespace MappingProject.Controllers
 {
@@ -140,7 +140,31 @@ namespace MappingProject.Controllers
 
         /***************************************************************************************************************************0***/
 
+        [Authorize]
+        public ActionResult ViewFleetMap()
+        {
 
+            ViewBag.ManagerID = User.Identity.GetUserId();
+
+            return View();
+        }
+
+        public ActionResult FleetHistory()
+        {
+            ViewBag.ManagerID = User.Identity.GetUserId();
+
+            return View();
+        }
+
+        public ViewResult DriverIndex()
+        {
+            ViewBag.ManagerID = User.Identity.GetUserId();
+            return View();
+
+        }
+
+
+        /***********************************************************************************************************************************/
 
 
 

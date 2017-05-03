@@ -4,7 +4,7 @@
     ViewBag.Title = "ViewUpdate";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
 <script src="~/js/jquery-1.10.2.min.js"></script>
 <h2>ViewMap</h2>
 <!DOCTYPE html>
@@ -160,31 +160,6 @@
 
                                       });
 
-                      //// store a LatLng for each step of the animation
-                      //frames = [];
-                      //for (var percent = 0; percent < 1; percent += 0.001) {
-                      //    curLat = fromLat + percent * (toLat - fromLat);
-                      //    curLng = fromLng + percent * (toLng - fromLng);
-                      //    frames.push(new google.maps.LatLng(curLat, curLng));
-                      //}
-
-                      //move = function (marker, latlngs, index, wait, newDestination) {
-                      //    marker.setPosition(latlngs[index]);
-                      //    if (index != latlngs.length - 1) {
-                      //        // call the next "frame" of the animation
-                      //        setTimeout(function () {
-                      //            move(marker, latlngs, index + 1, wait, newDestination);
-                      //        }, wait);
-                      //    }
-                      //    //else {
-                      //    //    // assign new route
-                      //    //    marker.position = marker.destination;
-                      //    //    marker.destination = newDestination;
-                      //    //}
-                      //}
-
-                      //// begin animation, send back to origin after completion
-                      //move(marker, frames, 0, 20, marker.position);
 
                   };
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,11 +173,7 @@
 
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
-    <!--
-    To use this code on your website, get a free API key from Google.
-    Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
-    -->
+   
 
 </body>
 </html>

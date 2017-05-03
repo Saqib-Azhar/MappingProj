@@ -148,10 +148,8 @@ namespace MappingProject.Controllers
         [Authorize]
         public ActionResult UpdateValues(int id)// To Manually update values of location //REMOVE IT AFTER APP CONFIGRATION
         {
-            var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(s=>s.VehicleID).FirstOrDefault(s => s.VehicleID == id);
-            ViewBag.LastLatitude = LocationObj.LastLatitude;
-            ViewBag.LastLongitude = LocationObj.LastLongitude;
-            ViewBag.VehicleID = LocationObj.Id;
+           
+            ViewBag.VehicleID = id;
             return View();
         }
 

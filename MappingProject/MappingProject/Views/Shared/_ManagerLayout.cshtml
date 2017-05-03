@@ -51,22 +51,22 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("DriverIndex","AspNetUsers")">
+                            <a href="@Url.Action("DriverIndex","ManagerDashboard")">
                                 <i class="pe-7s-users"></i>
                                 <p>View Drivers</p>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index","AspNetVehicleLocationTables")">
+                            <a href="@Url.Action("FleetHistory","ManagerDashboard")">
                                 <i class="pe-7s-car"></i>
-                                <p>View Fleets</p>
+                                <p>View Fleet History</p>
                             </a>
                         </li>
 
                         <li>
-                            <a href="maps.html">
+                            <a href="@Url.Action("ViewFleetMap","ManagerDashboard")">
                                 <i class="pe-7s-map-marker"></i>
-                                <p>Maps</p>
+                                <p>View Map</p>
                             </a>
                         </li>
                     </ul>
