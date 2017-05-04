@@ -1,105 +1,79 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+
 }
 <style>
     .src-image {
         display: none;
     }
+    body {
+        padding-top:10px;
+        padding-bottom:0px;
+        background-image:url(../Images/car.jpg);
+        background-repeat:no-repeat;
+        background-size:cover;
 
-    .card {
-        overflow: hidden;
-        position: relative;
-        border: 1px solid #CCC;
-        border-radius: 8px;
-        text-align: center;
-        padding: 0;
-        background-color: #284c79;
-        color: rgb(136, 172, 217);
+        
     }
 
-        .card .header-bg {
-            /* This stretches the canvas across the entire hero unit */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            border-bottom: 1px #FFF solid;
-            /* This positions the canvas under the text */
-            z-index: 1;
-        }
 
-        .card .avatar {
-            position: relative;
-            margin-top: 15px;
-            z-index: 100;
-        }
-
-            .card .avatar img {
-                width: 100px;
-                height: 100px;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                border-radius: 50%;
-                border: 5px solid rgba(0,0,30,0.8);
-            }
-
-    .content1 {
-        min-height: 25px;
-        padding: 15px;
-        margin-right: auto;
-        margin-left: auto;
-        padding-left: 15px;
-        padding-right: 15px;
+    .gly_user {
+        font-size:120px;
+        color:indianred;
+    }
+    .para_main {
+            font-size: 45px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 700;
+    color: indianred;
+    padding: 5px;
+    margin-bottom: 60px;
+    margin-top: 20px;
+    }
+    .head_dma {
+         font-size:36px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight:700;
+        color:indianred;
+    }
+    .footer_para {
+         text-align:center;
+         background-color:indianred;
+         color:white;
+         padding-top:8px;
+         padding-bottom:8px;
     }
 </style>
 <div class="container">
-   
-    <div style=" margin-top:100px; text-align center;" class="row center-block">
+   <div class="row">
+       <div class="col-md-12">
+           <div class="para_main text-center">
+               Welcome to Wheels-Trackers
+           </div>
+       </div>
+   </div>
+    <div class="row">
         <a href="@Url.Action("Login", "Account")">
-            <div style="display:inline-block; float:none; text-align:left; margin-right:-4px;" class="col-md-2 ">
-                <div class="card">
-                    <div class="avatar">
-                        <img src="~/Images/driver.png" alt="" />
-                    </div>
-                    <div class="content1">
-                        <p>
-                            Driver
-                        </p>
-                        @*<p>
-                                <button onclick="window.location.href = '@Url.Action("Login", "Account")';" class="btn btn-default">Login</button>
-                            </p>*@
-                    </div>
+            <div  class="col-md-4">
+               <div class="main_blk thumbnail">
+                   <div class=""><img src="~/Images/driver-1149997_640.jpg"  class="img-responsive"/></div>
+                   <div class="text-center head_dma">Driver</div>
+               </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Login", "Account")">
+            <div class="col-md-4 ">
+                <div class="main_blk thumbnail">
+                    <div class=""><img src="~/Images/Managerr.jpg" alt="imgae here" class="img-responsive" /></div>
+                    <div class="text-center head_dma">Manager</div>
                 </div>
             </div>
         </a>
         <a href="@Url.Action("Login", "Account")">
-            <div style="display:inline-block; float:none; text-align:left; margin-right:-4px;" class="col-md-2 ">
-                <div class="card">
-                    <div class="avatar">
-                        <img src="~/Images/Manager.png" alt="" />
-                    </div>
-                    <div class="content1">
-                        <p>
-                            Manager
-                        </p>
-                        @*<p><button onclick="window.location.href = '@Url.Action("Login", "Account")';" class="btn btn-default">Login</button></p>*@
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a href="@Url.Action("Login", "Account")">
-            <div style="display:inline-block; float:none; text-align:left; margin-right:-4px;" class="col-md-2 ">
-                <div class="card">
-                    <div class="avatar">
-                        <img src="~/Images/Admin.ico" alt="" />
-                    </div>
-                    <div class="content1">
-                        <p>
-                            Administrator
-                        </p>
-                        @* <p><button onclick="window.location.href = '@Url.Action("Login", "Account")';" class="btn btn-default">Login</button></p>*@
-                    </div>
+            <div class="col-md-4 ">
+                <div class="main_blk thumbnail">
+                    <div class=""><img src="~/Images/Organize.jpg" alt="imgae here" class="img-responsive" /></div>
+                    <div class="text-center head_dma">Adminstrator</div>
                 </div>
             </div>
         </a>
@@ -107,3 +81,12 @@
    
     </div>
 </div>
+
+    <div class="row" style="padding-top:157px;">
+        <footer>
+            <div class="footer_para">
+               &copy; @DateTime.Now.Year - Wheels-Trackers
+
+            </div>
+        </footer>
+    </div>
