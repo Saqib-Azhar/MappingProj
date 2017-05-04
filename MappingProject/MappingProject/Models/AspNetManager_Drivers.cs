@@ -17,6 +17,7 @@ namespace MappingProject.Models
         public int Id { get; set; }
         public string DriverID { get; set; }
         public string ManagerID { get; set; }
+        public Nullable<bool> IsDriverActive { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

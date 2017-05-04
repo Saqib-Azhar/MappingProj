@@ -98,13 +98,22 @@ namespace MappingProject.Controllers
 
                         var userStore = new UserStore<ApplicationUser>(context);
                         var userManager = new UserManager<ApplicationUser>(userStore);
-                      userManager.AddToRole(user.Id, "Driver");
+                        userManager.AddToRole(user.Id, "Driver");
                         var CurrentUser = UserManager.FindById(User.Identity.GetUserId());
+
                         var NewVehicle = new AspNetVehicle();
+                        var CheckVehicle = new AspNetVehicle();
+                        var UserVehicleID = Request.Form["VehicleID"];
+                        try {
+                            CheckVehicle = db.AspNetVehicles.FirstOrDefault(s => s.VehicleID == UserVehicleID);
+                            NewVehicle.Id = CheckVehicle.Id;
+                            NewVehicle.VehicleID = CheckVehicle.VehicleID;
+                        }
+                        catch {
+                        NewVehicle.VehicleID = UserVehicleID;
                         db.AspNetVehicles.Add(NewVehicle);
                         db.SaveChanges();
-
-
+                        }
                         var DriverObj = db.AspNetUsers.FirstOrDefault(x => x.Email == model.Email && x.UserName == model.UserName);
                         var ManagerDriverObj = new AspNetManager_Drivers();
                         ManagerDriverObj.ManagerID = CurrentUser.Id;
@@ -113,7 +122,7 @@ namespace MappingProject.Controllers
                         db.SaveChanges();
 
                         var NewDriverVehicleObj = new AspNetDriver_Vehicle();
-                        NewDriverVehicleObj.VehicleID = NewVehicle.VehicleID;
+                        NewDriverVehicleObj.VehicleID = NewVehicle.Id;
                         NewDriverVehicleObj.DriverID = DriverObj.Id;
                         db.AspNetDriver_Vehicle.Add(NewDriverVehicleObj);
                         db.SaveChanges();

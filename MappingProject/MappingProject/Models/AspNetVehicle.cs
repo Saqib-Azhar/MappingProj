@@ -21,7 +21,8 @@ namespace MappingProject.Models
             this.AspNetVehicleLocationTables = new HashSet<AspNetVehicleLocationTable>();
         }
     
-        public int VehicleID { get; set; }
+        public int Id { get; set; }
+        public string VehicleID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetDriver_Vehicle> AspNetDriver_Vehicle { get; set; }

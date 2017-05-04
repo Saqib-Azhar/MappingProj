@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MappingProject.Models;
+using System.Text.RegularExpressions;
 
 namespace MappingProject.Controllers
 {
@@ -22,19 +23,63 @@ namespace MappingProject.Controllers
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        //public class readings
+        //{
+        //    public string vehicleid { get; set; }
+        //    public float longitude { get; set; }
+        //    public float latitude { get; set; }
+        //    public string ENGINE_RPM { get; set; }
+        //    public float Speed { get; set; }
+        //    public float FuelPressure { get; set; }
+        //    public float Throttle_Pos { get; set; }
+        //    public string FuelType { get; set; }
+        //    public float Fuel_Rail_Pressure { set; get; }
+        //    public string TimeStamp { get; set; }
+        //}
+
+            public class ObdReading
+        {
+            public string vehicleid { get;set;}
+            public double latitude { get;set;}
+            public double longitude { get; set; }
+            public long timestamp { get; set; }
+            public double altitude { get; set; }
+            public readings readings { get; set; }
+        }
+
         public class readings
         {
-            public int vehicleid { get; set; }
-            public float longitude { get; set; }
-            public float latitude { get; set; }
-            public float EngineRPM { get; set; }
-            public float Speed { get; set; }
-            public float FuelPressure { get; set; }
-            public float Throttle_Pos { get; set; }
-            public string FuelType { get; set; }
-            public float Fuel_Rail_Pressure { set; get; }
-            public string TimeStamp { get; set; }
+            public string FUEL_PRESSURE { get; set; }
+            public string ENGINE_RPM { get; set; }
+            public string SPEED { get; set; }
+            public string THROTTLE_POS { get; set; }
+            public string FUEL_TYPE { get; set; }
+            public string ENGINE_LOAD { get; set; }
+            public string FUEL_RAIL_PRESSURE { get; set; }
+
         }
+
+
+        public void UpdateDB(ObdReading reading)
+        {
+         
+            var vehicleobj = db.AspNetVehicles.FirstOrDefault(s => s.VehicleID == reading.vehicleid);
+            var ReadingObj = new AspNetVehicleLocationTable();
+            ReadingObj.LastLatitude = reading.latitude;
+            ReadingObj.LastLongitude = reading.longitude;
+            ReadingObj.EngineRPM = Regex.Replace(reading.readings.ENGINE_RPM, "[A-Za-z ]", "");
+            ReadingObj.Speed = Regex.Replace(reading.readings.SPEED, "[A-Za-z ]", "");
+            ReadingObj.FuelPressure = Regex.Replace(reading.readings.FUEL_PRESSURE, "[A-Za-z ]", "");
+            ReadingObj.Throttle_Pos = Regex.Replace(reading.readings.THROTTLE_POS, "[A-Za-z ]", "");
+            ReadingObj.FuelType = Regex.Replace(reading.readings.FUEL_TYPE, "[A-Za-z ]", "");
+            ReadingObj.TimeStamp = Convert.ToInt32(reading.timestamp);
+            ReadingObj.VehicleID = vehicleobj.Id;
+            db.AspNetVehicleLocationTables.Add(ReadingObj);
+            db.SaveChanges();
+
+        }
+
+
 
         [Authorize]
         public ActionResult ViewMap(int id)
@@ -69,24 +114,6 @@ namespace MappingProject.Controllers
 
         }
 
-
-        [Authorize]
-        public void UpdateDB(readings reading)
-        {
-            var ReadingObj = new AspNetVehicleLocationTable();
-            ReadingObj.LastLatitude = reading.latitude;
-            ReadingObj.LastLongitude = reading.longitude;
-            ReadingObj.EngineRPM = reading.EngineRPM;
-            ReadingObj.Speed = reading.Speed;
-            ReadingObj.FuelPressure = reading.FuelPressure;
-            ReadingObj.Throttle_Pos = reading.Throttle_Pos;
-            ReadingObj.FuelType = reading.FuelType;
-            ReadingObj.TimeStamp = reading.TimeStamp;
-            ReadingObj.VehicleID = reading.vehicleid;
-            db.AspNetVehicleLocationTables.Add(ReadingObj);
-            db.SaveChanges();
-
-        }
 
         [Authorize]
         public JsonResult UpdateView(int id)

@@ -9,7 +9,7 @@
                        $('#DriverTable').html(' ');
                        $.each(data, function (i, item) {
                            console.log(JSON.stringify(item));
-                           $('#DriverTable').append('<tr><td>' + item.UserName + '</td><td>' + item.Email + '</td><td>' + item.PhoneNumber + '</td><td>' + item.VehicleID + '</td></tr>');
+                           $('#DriverTable').append('<tr><td>' + item.UserName + '</td><td>' + item.Email + '</td><td>' + item.PhoneNumber + '</td><td>' + item.VehicleID + '</td><td><a href="/AspNetUsers/DriverDelete?id=' + item.ID + '">Delete</a></td></tr>');
                        });
 
                    });
@@ -35,7 +35,7 @@
 </head>
 <body>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        <a href='@Url.Action("DriverRegister","ManagerDashboard")'>Add Driver</a>
     </p>
     <div class="row">
        

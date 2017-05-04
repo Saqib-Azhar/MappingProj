@@ -306,8 +306,72 @@
 
 <body>
     <table border="1" align="center">
-             <tbody>
-           
+        <thead>
+            <tr>
+                <td align="center" colspan="9" id="vehicleIdDiv">
+                    <b><u>Vehicle ID:</u></b>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <b><u>Latitude</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Longitude</u></b>
+                </td>
+                <td align="center">
+                    <b><u>EngineRPM</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Speed</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Pressure</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Throttle Pos</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Type</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Fuel Rail Pressure</u></b>
+                </td>
+                <td align="center">
+                    <b><u>Time Stamp</u></b>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center" id="latitudeDiv">
+                    @ViewBag.LastLatitude
+                </td>
+                <td align="center" id="longitudeDiv">
+                    @ViewBag.LastLongitude
+                </td>
+                <td align="center" id="enginerpmDiv">
+                    @ViewBag.EngineRPM
+                </td>
+                <td align="center" id="speedDiv">
+                    @ViewBag.Speed
+                </td>
+                <td align="center" id="fuelpressureDiv">
+                    @ViewBag.FuelPressure
+                </td>
+                <td align="center" id="throttle_posDiv">
+                    @ViewBag.Throttle_Pos
+                </td>
+                <td align="center" id="fueltypeDiv">
+                    @ViewBag.FuelType
+                </td>
+                <td align="center" id="fuel_rail_pressureDiv">
+                    @ViewBag.Fuel_Rail_Pressure
+                </td>
+                <td align="center" id="timestampDiv">
+                    @ViewBag.TimeStamp
+                </td>
+            </tr>
             <tr>
                 <td id="map" style="width:900px;height:400px" colspan="9"></td>
             </tr>
@@ -381,15 +445,17 @@
                                         var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
                                         var newTimeStamp = data.TimeStamp;
 
-                                        $("#longitudeDiv").html(toLng);
-                                        $("#latitudeDiv").html(toLat);
-                                        $("#enginerpmDiv").html(newEngineRPM);
-                                        $("#speedDiv").html(newSpeed);
-                                        $("#fuel_rail_pressureDiv").html(newFuelPressure);
-                                        $("#throttle_posDiv").html(newThrottle_Pos);
-                                        $("#fueltypeDiv").html(newFuelType);
-                                        $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
-                                        $("#timestampDiv").html(newTimeStamp);
+                                          
+                                          $("#vehicleIdDiv").html(vehicleID);
+                                          $("#longitudeDiv").html(toLng);
+                                          $("#latitudeDiv").html(toLat);
+                                          $("#enginerpmDiv").html(newEngineRPM);
+                                          $("#speedDiv").html(newSpeed);
+                                          $("#fuel_rail_pressureDiv").html(newFuelPressure);
+                                          $("#throttle_posDiv").html(newThrottle_Pos);
+                                          $("#fueltypeDiv").html(newFuelType);
+                                          $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
+                                          $("#timestampDiv").html(newTimeStamp);
 
                                         if(toLng!=fromLng || toLat!=fromLat)
                                         {

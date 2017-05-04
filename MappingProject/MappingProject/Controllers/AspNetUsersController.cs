@@ -85,35 +85,7 @@ namespace MappingProject.Controllers
             return Json(driversList, JsonRequestBehavior.AllowGet);
 
         }
-
-        //[HttpGet]
-        //public JsonResult DriversIndexByManager(string id)
-        //{
-        //    db.Configuration.ProxyCreationEnabled = false;
-        //    List<AspNetManager_Drivers> sub = db.AspNetManager_Drivers.Where(r => r.ManagerID == id).ToList();
-
-        //    List<AspNetUser> list = new List<AspNetUser>();
-        //    foreach (var item in sub)
-        //    {
-        //        var obj = db.AspNetUsers.FirstOrDefault(x => x.Id == item.DriverID);
-        //        var test = list.Find(s => s.Id == obj.Id);
-        //        if (test == null)
-        //        {
-        //            list.Add(obj);
-        //        }
-        //    }
-        //    //var HistoryLogs = (from log in db.AspNetVehicleLocationTables
-        //    //                   where log.VehicleID == VehicleObj.VehicleID
-        //    //                   select new { log.Id, log.LastLatitude, log.LastLongitude, log.Speed, log.Throttle_Pos, log.TimeStamp, log.VehicleID, log.EngineRPM, log.FuelPressure, log.FuelType, log.Fuel_Rail_Pressure }).ToList();
-
-
-
-        //    var driversList = list;
-
-
-        //    return Json(driversList, JsonRequestBehavior.AllowGet);
-
-        //}
+        
 
         public class DriverVehicle
         {
@@ -121,7 +93,7 @@ namespace MappingProject.Controllers
             public string ID { get; set; }
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
-            public int? VehicleID { get; set; }
+            public string VehicleID { get; set; }
         }
 
 
@@ -137,7 +109,8 @@ namespace MappingProject.Controllers
             foreach(var item in sub)
             {
                 var driverobj = db.AspNetUsers.FirstOrDefault(x => x.Id == item.DriverID);
-                var vehicleobj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == driverobj.Id);
+                var drivervehicleobj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == driverobj.Id);
+                var vehicleobj = db.AspNetVehicles.FirstOrDefault(s => s.Id == drivervehicleobj.VehicleID);
                 DriverVehicle drivervehicleObj = new DriverVehicle();
                 drivervehicleObj.ID = driverobj.Id;
                 drivervehicleObj.UserName = driverobj.UserName;
@@ -259,7 +232,7 @@ namespace MappingProject.Controllers
             AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
             
             AspNetDriver_Vehicle DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == id);
-            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x => x.VehicleID == DriverVehicleObj.VehicleID);
+            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x => x.Id == DriverVehicleObj.VehicleID);
 
 
 
@@ -287,9 +260,17 @@ namespace MappingProject.Controllers
         [HttpGet]
         public ActionResult DriverDelete(string id)
         {
-
-
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(aspNetUser);
+            
 
         }
 
@@ -300,18 +281,61 @@ namespace MappingProject.Controllers
             AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
         
             AspNetDriver_Vehicle DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == id) ;
-            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x=>x.VehicleID==DriverVehicleObj.VehicleID);
+            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x=>x.Id==DriverVehicleObj.VehicleID);
            
             db.AspNetUsers.Remove(aspNetUser);
             db.AspNetManager_Drivers.Remove(ManagerDriverObj);
             db.AspNetDriver_Vehicle.Remove(DriverVehicleObj);
             db.AspNetVehicles.Remove(VehicleObj);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("DriverIndex");
         }
 
 
 
+        [HttpGet]
+        public ActionResult ManagerDelete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(aspNetUser);
+        }
+
+        [HttpPost, ActionName("ManagerDelete")]
+        public ActionResult ManagerDeletePost(string id)
+        {
+            var transactionObj = db.Database.BeginTransaction();
+            try {
+                AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+                AspNetAdmin_Managers AdminManagerObj = db.AspNetAdmin_Managers.FirstOrDefault(x => x.ManagerID == id);
+                AspNetManager_Drivers ManagerDriverObj = new AspNetManager_Drivers();
+
+                do
+                {
+                    ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
+                    db.AspNetManager_Drivers.Remove(ManagerDriverObj);
+                    db.SaveChanges();
+                } while (ManagerDriverObj != null);
+                db.AspNetUsers.Remove(aspNetUser);
+                db.AspNetAdmin_Managers.Remove(AdminManagerObj);
+                db.SaveChanges();
+                transactionObj.Commit();
+            }
+            
+            catch(Exception ex)
+            {
+                transactionObj.Dispose();
+            }
+            return RedirectToAction("ManagerIndex");
+
+        }
 
 
 
