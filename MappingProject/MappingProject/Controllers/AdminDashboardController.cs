@@ -162,7 +162,9 @@ namespace MappingProject.Controllers
                         userManager.AddToRole(user.Id, "Driver");
                         var CurrentUser = UserManager.FindById(User.Identity.GetUserId());
 
+                        var UserVehicleID = Request.Form["VehicleID"];
                         var NewVehicle = new AspNetVehicle();
+                        NewVehicle.VehicleID = UserVehicleID;
                         db.AspNetVehicles.Add(NewVehicle);
                         db.SaveChanges();
 
@@ -175,7 +177,7 @@ namespace MappingProject.Controllers
                         db.SaveChanges();
 
                         var NewDriverVehicleObj = new AspNetDriver_Vehicle();
-                        NewDriverVehicleObj.VehicleID = NewVehicle.VehicleID;
+                        NewDriverVehicleObj.VehicleID = NewVehicle.Id;
                         NewDriverVehicleObj.DriverID = DriverObj.Id;
                         db.AspNetDriver_Vehicle.Add(NewDriverVehicleObj);
                         db.SaveChanges();

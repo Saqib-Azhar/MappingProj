@@ -12,8 +12,8 @@
     <table border="1" align="center">
         <thead>
             <tr>
-                <td align="center" colspan="9">
-                    <b><u>Vehicle ID: 2</u></b>
+                <td align="center" colspan="9" id="vehicleIdDiv">
+                    <b><u>Vehicle ID:</u></b>
                 </td>
             </tr>
             <tr>
@@ -115,7 +115,7 @@
                     animation: google.maps.Animation.BOUNCE
                   });
                   marker.setMap(map);
-                  setInterval(updateView,2000);
+                  setInterval(updateView,1000);
                     //UpdateCurser();
 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +139,8 @@
                                           var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
                                           var newTimeStamp = data.TimeStamp;
 
+                                          
+                                          $("#vehicleIdDiv").html(vehicleID);
                                           $("#longitudeDiv").html(toLng);
                                           $("#latitudeDiv").html(toLat);
                                           $("#enginerpmDiv").html(newEngineRPM);

@@ -17,14 +17,15 @@ namespace MappingProject.Models
         public int Id { get; set; }
         public Nullable<double> LastLatitude { get; set; }
         public Nullable<double> LastLongitude { get; set; }
-        public Nullable<double> EngineRPM { get; set; }
-        public Nullable<double> Speed { get; set; }
-        public Nullable<double> FuelPressure { get; set; }
-        public Nullable<double> Throttle_Pos { get; set; }
+        public string EngineRPM { get; set; }
+        public string Speed { get; set; }
+        public string FuelPressure { get; set; }
+        public string Throttle_Pos { get; set; }
         public string FuelType { get; set; }
-        public Nullable<double> Fuel_Rail_Pressure { get; set; }
-        public string TimeStamp { get; set; }
+        public string Fuel_Rail_Pressure { get; set; }
+        public Nullable<int> TimeStamp { get; set; }
         public int VehicleID { get; set; }
+        public Nullable<double> Altitude { get; set; }
     
         public virtual AspNetVehicle AspNetVehicle { get; set; }
     }

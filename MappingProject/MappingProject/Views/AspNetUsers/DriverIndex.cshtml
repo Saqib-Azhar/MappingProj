@@ -10,7 +10,7 @@
                        $('#DriverTable').html(' ');
                        $.each(data, function (i, item) {
                            console.log(JSON.stringify(item));
-                           $('#DriverTable').append('<tr><td>' + item.UserName + '</td><td>' + item.Email + '</td><td>' + item.PhoneNumber + '</td><td>' + item.VehicleID + '</td></tr>');
+                           $('#DriverTable').append('<tr><td>' + item.UserName + '</td><td>' + item.Email + '</td><td>' + item.PhoneNumber + '</td><td>' + item.VehicleID + '</td><td><a href="/AspNetUsers/DriverDelete?id=' + item.ID + '">Delete</a></td></tr>');
                        });
 
                    });
@@ -66,12 +66,8 @@
             <td>
                 VehicleID
             </td>
-            @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-                </td>*@
-        </tr>
+            <td></td>
+</tr>
         <tbody id="DriverTable"></tbody>
 
 

@@ -399,13 +399,6 @@
     <Content Include="Images\transparent-world-map-hi.png" />
     <Content Include="Images\world-hd-background-web-design-artwork-yellow-maps-country.jpg" />
     <Content Include="Images\worldmap.png" />
-    <EntityDeploy Include="Models\MappingDatabaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MappingDatabaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\MappingDatabaseModel.edmx.diagram">
-      <DependentUpon>MappingDatabaseModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\.DS_Store" />
     <Content Include="fonts\.DS_Store" />
     <Content Include="fonts\Pe-icon-7-stroke.eot" />
@@ -546,6 +539,13 @@
     <Content Include="Content\sass\lbd\_typography.scss" />
     <Content Include="Content\sass\lbd\_variables.scss" />
     <Content Include="Content\sass\light-bootstrap-dashboard.scss" />
+    <EntityDeploy Include="Models\MappingDatabaseModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MappingDatabaseModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\MappingDatabaseModel.edmx.diagram">
+      <DependentUpon>MappingDatabaseModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -643,6 +643,8 @@
     <Content Include="Views\ManagerDashboard\ViewFleetMap.cshtml" />
     <Content Include="Views\ManagerDashboard\FleetHistory.cshtml" />
     <Content Include="Views\ManagerDashboard\DriverIndex.cshtml" />
+    <Content Include="Views\AspNetUsers\DriverDelete.cshtml" />
+    <Content Include="Views\AspNetUsers\ManagerDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

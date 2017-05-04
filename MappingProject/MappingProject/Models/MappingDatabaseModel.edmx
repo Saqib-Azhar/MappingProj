@@ -22,6 +22,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AdminID" Type="nvarchar" MaxLength="128" />
           <Property Name="ManagerID" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsManagerActive" Type="bit" />
         </EntityType>
         <EntityType Name="AspNetDriver_Vehicle">
           <Key>
@@ -38,6 +39,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DriverID" Type="nvarchar" MaxLength="128" />
           <Property Name="ManagerID" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsDriverActive" Type="bit" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -92,9 +94,10 @@
         </EntityType>
         <EntityType Name="AspNetVehicle">
           <Key>
-            <PropertyRef Name="VehicleID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="VehicleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleID" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AspNetVehicleLocationTable">
           <Key>
@@ -103,14 +106,15 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LastLatitude" Type="float" />
           <Property Name="LastLongitude" Type="float" />
-          <Property Name="EngineRPM" Type="float" />
-          <Property Name="Speed" Type="float" />
-          <Property Name="FuelPressure" Type="float" />
-          <Property Name="Throttle_Pos" Type="float" />
-          <Property Name="FuelType" Type="nvarchar" MaxLength="50" />
-          <Property Name="Fuel_Rail_Pressure" Type="float" />
-          <Property Name="TimeStamp" Type="nvarchar(max)" />
+          <Property Name="EngineRPM" Type="nvarchar(max)" />
+          <Property Name="Speed" Type="nvarchar(max)" />
+          <Property Name="FuelPressure" Type="nvarchar(max)" />
+          <Property Name="Throttle_Pos" Type="nvarchar(max)" />
+          <Property Name="FuelType" Type="nvarchar(max)" />
+          <Property Name="Fuel_Rail_Pressure" Type="nvarchar(max)" />
+          <Property Name="TimeStamp" Type="int" />
           <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="Altitude" Type="float" />
         </EntityType>
         <Association Name="FK_AspDriver_Vehicle_ToUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
@@ -133,7 +137,7 @@
           <End Role="AspNetDriver_Vehicle" Type="Self.AspNetDriver_Vehicle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetVehicle">
-              <PropertyRef Name="VehicleID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AspNetDriver_Vehicle">
               <PropertyRef Name="VehicleID" />
@@ -195,7 +199,7 @@
           <End Role="AspNetVehicleLocationTable" Type="Self.AspNetVehicleLocationTable" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetVehicle">
-              <PropertyRef Name="VehicleID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AspNetVehicleLocationTable">
               <PropertyRef Name="VehicleID" />
@@ -337,6 +341,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AdminID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ManagerID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsManagerActive" Type="Boolean" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_AspNetAdmin_Managers_ToAdmin" FromRole="AspNetAdmin_Managers" ToRole="AspNetUsers" />
           <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_AspNetAdmin_Managers_ToManager" FromRole="AspNetAdmin_Managers" ToRole="AspNetUsers" />
         </EntityType>
@@ -357,6 +362,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DriverID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ManagerID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsDriverActive" Type="Boolean" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_AspNetManager_Drivers_ToDriver" FromRole="AspNetManager_Drivers" ToRole="AspNetUsers" />
           <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_AspNetManager_Drivers_ToManager" FromRole="AspNetManager_Drivers" ToRole="AspNetUsers" />
         </EntityType>
@@ -416,9 +422,10 @@
         </EntityType>
         <EntityType Name="AspNetVehicle">
           <Key>
-            <PropertyRef Name="VehicleID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetDriver_Vehicle" Relationship="Self.FK_AspDriver_Vehicle_ToVehicles" FromRole="AspNetVehicle" ToRole="AspNetDriver_Vehicle" />
           <NavigationProperty Name="AspNetVehicleLocationTables" Relationship="Self.FK_AspNetVehicleLocation_ToVehicles" FromRole="AspNetVehicle" ToRole="AspNetVehicleLocationTable" />
         </EntityType>
@@ -429,14 +436,15 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LastLatitude" Type="Double" />
           <Property Name="LastLongitude" Type="Double" />
-          <Property Name="EngineRPM" Type="Double" />
-          <Property Name="Speed" Type="Double" />
-          <Property Name="FuelPressure" Type="Double" />
-          <Property Name="Throttle_Pos" Type="Double" />
-          <Property Name="FuelType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Fuel_Rail_Pressure" Type="Double" />
-          <Property Name="TimeStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EngineRPM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Speed" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FuelPressure" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Throttle_Pos" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FuelType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fuel_Rail_Pressure" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="Int32" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="Altitude" Type="Double" />
           <NavigationProperty Name="AspNetVehicle" Relationship="Self.FK_AspNetVehicleLocation_ToVehicles" FromRole="AspNetVehicleLocationTable" ToRole="AspNetVehicle" />
         </EntityType>
         <Association Name="FK_AspNetAdmin_Managers_ToAdmin">
@@ -484,7 +492,7 @@
           <End Role="AspNetDriver_Vehicle" Type="Self.AspNetDriver_Vehicle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetVehicle">
-              <PropertyRef Name="VehicleID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AspNetDriver_Vehicle">
               <PropertyRef Name="VehicleID" />
@@ -550,7 +558,7 @@
           <End Role="AspNetVehicleLocationTable" Type="Self.AspNetVehicleLocationTable" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetVehicle">
-              <PropertyRef Name="VehicleID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AspNetVehicleLocationTable">
               <PropertyRef Name="VehicleID" />
@@ -635,6 +643,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AdminID" ColumnName="AdminID" />
                 <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+                <ScalarProperty Name="IsManagerActive" ColumnName="IsManagerActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -653,6 +662,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DriverID" ColumnName="DriverID" />
                 <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+                <ScalarProperty Name="IsDriverActive" ColumnName="IsDriverActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -704,6 +714,7 @@
           <EntitySetMapping Name="AspNetVehicles">
             <EntityTypeMapping TypeName="MappingDatabaseModel.AspNetVehicle">
               <MappingFragment StoreEntitySet="AspNetVehicle">
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -722,6 +733,7 @@
                 <ScalarProperty Name="Fuel_Rail_Pressure" ColumnName="Fuel_Rail_Pressure" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="Altitude" ColumnName="Altitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -17,6 +17,7 @@ namespace MappingProject.Models
         public int Id { get; set; }
         public string AdminID { get; set; }
         public string ManagerID { get; set; }
+        public Nullable<bool> IsManagerActive { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }
