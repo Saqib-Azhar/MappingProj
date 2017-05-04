@@ -209,6 +209,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetAdmin_Managers.cs">
       <DependentUpon>MappingDatabaseModel.tt</DependentUpon>
@@ -261,6 +262,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-MappingProject-20170421030733.mdf" />
+    <Content Include="App_Data\aspnet-MappingProject-20170421030733_log.ldf">
+      <DependentUpon>aspnet-MappingProject-20170421030733.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\animate.min.css" />
     <Content Include="Content\css\animate.min.css" />
     <Content Include="Content\css\bootstrap.min.css" />
@@ -333,21 +338,20 @@
     <Content Include="Images\6qyIbi.jpg" />
     <Content Include="Images\75868.jpg" />
     <Content Include="Images\9WtwZz.jpg" />
-    <Content Include="App_Data\MappingDatabase.mdf" />
-    <Content Include="App_Data\MappingDatabase_log.ldf">
-      <DependentUpon>MappingDatabase.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\admin.png" />
     <Content Include="Images\CLoLb80UwAAIWIV.jpg" />
     <Content Include="Images\cropped-vintage-world-map-facebook-cover-timeline-banner-for-fb1.jpg" />
+    <Content Include="Images\driver.png" />
     <Content Include="Images\How-To-Track-Your-Car-800x300 - Copy.jpg" />
     <Content Include="Images\How-To-Track-Your-Car-800x300.jpg" />
     <Content Include="Images\Low-Poly-Shattered-World-Map-No-Background-2400px.png" />
+    <Content Include="Images\Manager.png" />
     <Content Include="Images\Sweet-Tiled-World-Map-No-Background.png" />
     <Content Include="Images\vintage-world-map-facebook-cover-timeline-banner-for-fb.jpg" />
     <Content Include="img\default-avatar.png" />

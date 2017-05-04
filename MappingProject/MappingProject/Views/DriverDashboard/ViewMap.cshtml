@@ -3,8 +3,304 @@
 @{
     ViewBag.Title = "DriverViewUpdate";
     //Layout = "~/Views/Shared/_Layout.cshtml";
-}<script src="~/js/jquery-1.10.2.min.js"></script>
-<h2>ViewMap</h2>
+}
+
+
+
+<base href="http://demos.telerik.com/kendo-ui/radial-gauge/car-dashboard">
+<style>
+    html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .box_info {
+        border: 10px solid lightgrey;
+    border-top-left-radius: 352px;
+    border-top-right-radius: 352px;
+    background-color: black;
+    border-bottom-right-radius: 60px;
+    border-bottom-left-radius: 60px;
+    width: 77%;
+    }
+</style>
+
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.black.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.black.mobile.min.css" />
+
+<script src="https://kendo.cdn.telerik.com/2017.1.223/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2017.1.223/js/kendo.all.min.js"></script>
+
+<script>
+    $(document).ready(function()
+    {
+        document.getElementsByTagName("base")[0].setAttribute("href", "");
+
+    });
+</script>
+
+
+
+    <script>
+        function createDashboard() {
+            $("#rpm").kendoRadialGauge({
+                theme: "black",
+
+                pointer: {
+                    value: 0,
+                    color: "#ea7001"
+                },
+
+                scale: {
+                    startAngle: -45,
+                    endAngle: 120,
+
+                    min: 0,
+                    max: 6,
+
+                    majorUnit: 1,
+                    majorTicks: {
+                        width: 1,
+                        size: 7
+                    },
+
+                    minorUnit: 0.2,
+                    minorTicks: {
+                        size: 5
+                    },
+
+                    ranges: [{
+                        from: 4,
+                        to: 5,
+                        color: "#ff7a00"
+                    }, {
+                        from: 5,
+                        to: 6,
+                        color: "#c20000"
+                    }],
+
+                    labels: {
+                        font: "11px Arial,Helvetica,sans-serif"
+                    }
+                }
+            });
+
+            $("#kmh").kendoRadialGauge({
+                theme: "black",
+
+                pointer: {
+                    value: 0,
+                    color: "#ea7001"
+                },
+
+                scale: {
+                    startAngle: -60,
+                    endAngle: 240,
+
+                    min: 0,
+                    max: 220,
+
+                    majorTicks: {
+                        width: 1,
+                        size: 14
+                    },
+                    majorUnit: 20,
+
+                    minorTicks: {
+                        size: 10
+                    },
+
+                    minorUnit: 2
+                }
+            });
+
+            $("#fuel").kendoRadialGauge({
+                theme: "black",
+
+                pointer: {
+                    value: 0.5,
+                    color: "#ea7001"
+                },
+
+                scale: {
+                    startAngle: 90,
+                    endAngle: 180,
+
+                    min: 0,
+                    max: 1,
+
+                    majorUnit: 0.5,
+                    majorTicks: {
+                        width: 2,
+                        size: 6
+                    },
+
+                    minorUnit: 0.25,
+                    minorTicks: {
+                        size: 3
+                    },
+
+                    ranges: [{
+                        from: 0,
+                        to: 0.1,
+                        color: "#c20000"
+                    }],
+
+                    labels: {
+                        font: "9px Arial,Helvetica,sans-serif"
+                    }
+                }
+            });
+
+            $("#water-temprature").kendoRadialGauge({
+                theme: "black",
+
+                pointer: {
+                    value: 90,
+                    color: "#ea7001"
+                },
+
+                scale: {
+                    startAngle: 180,
+                    endAngle: 270,
+
+                    min: 60,
+                    max: 120,
+
+                    majorUnit: 30,
+                    majorTicks: {
+                        width: 2,
+                        size: 6
+                    },
+
+                    minorUnit: 10,
+                    minorTicks: {
+                        size: 3
+                    },
+
+                    ranges: [{
+                        from: 110,
+                        to: 120,
+                        color: "#c20000"
+                    }],
+
+                    labels: {
+                        font: "9px Arial,Helvetica,sans-serif"
+                    }
+                }
+            });
+        }
+
+        var animateInterval;
+        function animateDashboard() {
+            if (animateInterval) {
+                return;
+            }
+
+            var GEARS = [0.14, 0.06, 0.035, 0.027, 0.019],
+                IDLE_RPM = 0.9,
+                CHANGE_RPM = 4,
+                CHANGE_DELAY = 400,
+                DECAY_RATE = 0.0017,
+                TOP_SPEED = 210,
+                ACCELERATION = 0.6,
+                INTERVAL = 50;
+
+            var speed = 0,
+                skip = 0,
+                ratio,
+                gear = 0;
+
+            function update() {
+                $("#rpm").data("kendoRadialGauge").value(GEARS[gear] * speed + IDLE_RPM);
+                $("#kmh").data("kendoRadialGauge").value(speed);
+
+
+
+            }
+
+            animateInterval = setInterval(function() {
+                if(speed < TOP_SPEED) {
+                    if (GEARS[gear] * speed > CHANGE_RPM && gear < GEARS.length) {
+                        gear++;
+                        skip = CHANGE_DELAY / INTERVAL;
+                        update();
+                    }
+
+                    if (skip-- < 0) {
+                        speed += ACCELERATION - (DECAY_RATE * speed);
+                        update();
+                    }
+                } else {
+                    skip = 100;
+                    speed = 0;
+                    gear = 0;
+                }
+            }, INTERVAL);
+        }
+
+        $(document).ready(function() {
+            animateInterval = null;
+
+            createDashboard();
+            animateDashboard();
+
+            $(document).bind("kendo:skinChange", function(e) {
+                createDashboard();
+            });
+
+            $(document).bind("kendo:pageUnload", function(e) {
+                clearInterval(animateInterval);
+            });
+        });
+    </script>
+
+    <style>
+        #gauge-container {
+            margin: 0 auto;
+            overflow: hidden;
+            width: 614px;
+            height: 324px;
+            background: transparent url("../content/dataviz/dashboards/car-dashboard.png") no-repeat 50% 50%;
+        }
+
+        .k-gauge {
+            float: left;
+        }
+
+        #rpm {
+            width: 142px;
+            height: 147px;
+            margin: 85px 0 0 38px;
+        }
+
+        #kmh {
+            width: 216px;
+            height: 216px;
+            margin: 57px 0 0 20px;
+        }
+
+        #fuel {
+            width: 77px;
+            height: 84px;
+            margin: 90px 0 0 68px;
+        }
+
+        #water-temprature {
+            width: 84px;
+            height: 80px;
+            margin: -7px 0 0 62px;
+        }
+    </style>
+
+
+
+
+
+
+
+<script src="~/js/jquery-1.10.2.min.js"></script>
+
 <!DOCTYPE html>
 <html>
 
@@ -82,62 +378,72 @@
         </tbody>
     </table>
     <div></div>
+    <br><br>
+    <div class="box_info center-block">
+        <div id="example">
+            <div id="gauge-container" class="hidden-on-narrow">
+                <div id="rpm"></div>
+                <div id="kmh"></div>
+                <div id="fuel"></div>
+                <div id="water-temprature"></div>
+            </div>
+        </div>
+    </div>
+        <script>
 
-    <script>
+            function mapUpdater(latit,long)
+            {
 
-                function mapUpdater(latit,long)
-                {
-
-                    var myCenter = new google.maps.LatLng(latit, long);
-                    map.setCenter(myCenter);
-                    marker.setPosition(new google.maps.LatLng(latit,long));
-                }
+                var myCenter = new google.maps.LatLng(latit, long);
+                map.setCenter(myCenter);
+                marker.setPosition(new google.maps.LatLng(latit,long));
+            }
 
 
-                var vehicleID = @ViewBag.CarID;
-                var fromLng = @ViewBag.LastLongitude;
-                var fromLat = @ViewBag.LastLatitude;
-                var toLng = @ViewBag.LastLongitude;
-                var toLat = @ViewBag.LastLatitude;
+            var vehicleID = @ViewBag.CarID;
+            var fromLng = @ViewBag.LastLongitude;
+            var fromLat = @ViewBag.LastLatitude;
+            var toLng = @ViewBag.LastLongitude;
+            var toLat = @ViewBag.LastLatitude;
 
 
-                var longVar = @ViewBag.LastLongitude;
-                var latiVar = @ViewBag.LastLatitude;
-                var marker;
-                var map;
-                function myMap() {
-                  var mapCanvas = document.getElementById("map");
-                  var myCenter = new google.maps.LatLng(latiVar, longVar);
-                  var mapOptions = {center: myCenter, zoom: 11};
-                  map = new google.maps.Map(mapCanvas,mapOptions);
-                  marker = new google.maps.Marker({
+            var longVar = @ViewBag.LastLongitude;
+            var latiVar = @ViewBag.LastLatitude;
+            var marker;
+            var map;
+            function myMap() {
+                var mapCanvas = document.getElementById("map");
+                var myCenter = new google.maps.LatLng(latiVar, longVar);
+                var mapOptions = {center: myCenter, zoom: 11};
+                map = new google.maps.Map(mapCanvas,mapOptions);
+                marker = new google.maps.Marker({
                     position: myCenter,
                     animation: google.maps.Animation.BOUNCE
-                  });
-                  marker.setMap(map);
-                  setInterval(updateView,1000);
-                    //UpdateCurser();
+                });
+                marker.setMap(map);
+                setInterval(updateView,2000);
+                //UpdateCurser();
 
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                  function updateView()
-                  {
-                      console.log("vehicle id is here: ",vehicleID);
-                      $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
-                                      { id: vehicleID }, function (data) {
+                function updateView()
+                {
+                    console.log("vehicle id is here: ",vehicleID);
+                    $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
+                                    { id: vehicleID }, function (data) {
 
-                                          console.log("data with stringify function : ",JSON.stringify(data));
-                                          console.log("data without stringify function: ",data);
-                                          toLng = data.LastLongitude;
-                                          toLat = data.LastLatitude;
+                                        console.log("data with stringify function : ",JSON.stringify(data));
+                                        console.log("data without stringify function: ",data);
+                                        toLng = data.LastLongitude;
+                                        toLat = data.LastLatitude;
 
-                                          var newEngineRPM = data.EngineRPM;
-                                          var newSpeed = data.Speed;
-                                          var newFuelPressure = data.FuelPressure;
-                                          var newThrottle_Pos = data.Throttle_Pos;
-                                          var newFuelType = data.FuelType;
-                                          var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
-                                          var newTimeStamp = data.TimeStamp;
+                                        var newEngineRPM = data.EngineRPM;
+                                        var newSpeed = data.Speed;
+                                        var newFuelPressure = data.FuelPressure;
+                                        var newThrottle_Pos = data.Throttle_Pos;
+                                        var newFuelType = data.FuelType;
+                                        var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
+                                        var newTimeStamp = data.TimeStamp;
 
                                           
                                           $("#vehicleIdDiv").html(vehicleID);
@@ -151,31 +457,32 @@
                                           $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
                                           $("#timestampDiv").html(newTimeStamp);
 
-                                          if(toLng!=fromLng || toLat!=fromLat)
-                                          {
-                                              fromLng=toLng;
-                                              fromLat=toLat;
-                                              mapUpdater(toLat,toLng);
-                                          }
+                                        if(toLng!=fromLng || toLat!=fromLat)
+                                        {
+                                            fromLng=toLng;
+                                            fromLat=toLat;
+                                            mapUpdater(toLat,toLng);
+                                        }
 
-                                      });
-
-
-                  };
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    });
 
 
+                };
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
 
-                }
-
-    </script>
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
-  
+            }
+
+        </script>
+
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
+    
+
 
 </body>
 </html>
