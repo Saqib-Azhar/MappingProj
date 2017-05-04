@@ -37,7 +37,7 @@ namespace MappingProject.Controllers
         //    public string TimeStamp { get; set; }
         //}
 
-            public class ObdReading
+        public class ObdReading
         {
             public string vehicleid { get;set;}
             public double latitude { get;set;}
@@ -84,6 +84,7 @@ namespace MappingProject.Controllers
         [Authorize]
         public ActionResult ViewMap(int id)
         {
+            try { 
             var LocationObj = db.AspNetVehicleLocationTables.OrderByDescending(x=>x.Id).FirstOrDefault(x=>x.VehicleID==id);
             ViewBag.LastLatitude = LocationObj.LastLatitude;
             ViewBag.LastLongitude = LocationObj.LastLongitude;
@@ -96,7 +97,9 @@ namespace MappingProject.Controllers
             ViewBag.Throttle_Pos = LocationObj.Throttle_Pos;
             ViewBag.FuelType = LocationObj.FuelType;
             ViewBag.Fuel_Rail_Pressure = LocationObj.Fuel_Rail_Pressure;
-
+            }
+            catch(Exception)
+            { }
             return View();
         }
 
@@ -129,7 +132,7 @@ namespace MappingProject.Controllers
        
         public ActionResult FleetHistory()
         {
-
+            try { 
             var managerDriverList = db.AspNetManager_Drivers.Select(s=>s.ManagerID);
            
             List<AspNetUser> UserList = new List<AspNetUser>();
@@ -146,6 +149,8 @@ namespace MappingProject.Controllers
             var list = new SelectList(UserList, "Id", "UserName");
 
             ViewBag.ManagerID = list;
+            }
+            catch { }
             return View();
         }
         

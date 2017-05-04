@@ -206,25 +206,27 @@ namespace MappingProject.Controllers
             [Authorize]
         public ActionResult ViewFleetMap()
         {
-
-
-            var managerDriverList = db.AspNetManager_Drivers.Select(s => s.ManagerID);
-
-            List<AspNetUser> UserList = new List<AspNetUser>();
-            foreach (var item in managerDriverList)
+            try
             {
-                var obj = db.AspNetUsers.FirstOrDefault(s => s.Id == item);
-                var test = UserList.Find(s => s.Id == obj.Id);
-                if (test == null)
+
+                var managerDriverList = db.AspNetManager_Drivers.Select(s => s.ManagerID);
+
+                List<AspNetUser> UserList = new List<AspNetUser>();
+                foreach (var item in managerDriverList)
                 {
-                    UserList.Add(obj);
+                    var obj = db.AspNetUsers.FirstOrDefault(s => s.Id == item);
+                    var test = UserList.Find(s => s.Id == obj.Id);
+                    if (test == null)
+                    {
+                        UserList.Add(obj);
+                    }
                 }
+
+                var list = new SelectList(UserList, "Id", "UserName");
+
+                ViewBag.ManagerID = list;
             }
-
-            var list = new SelectList(UserList, "Id", "UserName");
-
-            ViewBag.ManagerID = list;
-
+            catch (Exception) { }
             return View();
         }
 

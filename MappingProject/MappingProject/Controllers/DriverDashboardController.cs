@@ -67,6 +67,7 @@ namespace MappingProject.Controllers
 
         public ActionResult ViewMap()
         {
+            try { 
             var currentUser = User.Identity.GetUserId();
 
             var DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == currentUser);
@@ -84,8 +85,9 @@ namespace MappingProject.Controllers
             ViewBag.Throttle_Pos = LocationObj.Throttle_Pos;
             ViewBag.FuelType = LocationObj.FuelType;
             ViewBag.Fuel_Rail_Pressure = LocationObj.Fuel_Rail_Pressure;
-            
 
+            }
+            catch { }
             return View();
           //  return RedirectToAction("ViewMap", "AspNetVehicleLocationTables" ,new { id = id });
         }

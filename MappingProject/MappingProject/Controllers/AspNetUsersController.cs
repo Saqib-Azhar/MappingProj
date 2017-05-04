@@ -26,16 +26,10 @@ namespace MappingProject.Controllers
 
         }
 
-        //public ViewResult DriverIndex()
-        //{
-        //    ViewBag.RegisterPage = "DriverRegister";
-        //    return View("Index", db.AspNetUsers.Where(x => x.AspNetRoles.Select(y => y.Name).Contains("Driver")).ToList());
-
-
-        //}
 
         public ViewResult DriverIndex()
         {
+            try { 
             var managerDriverList = db.AspNetManager_Drivers.Select(s=>s.ManagerID);
            
             List<AspNetUser> UserList = new List<AspNetUser>();
@@ -52,6 +46,9 @@ namespace MappingProject.Controllers
             var list = new SelectList(UserList, "Id", "UserName");
 
             ViewBag.ManagerID = list;
+            }
+            catch(Exception)
+            { }
             return View();
 
         }
@@ -226,7 +223,8 @@ namespace MappingProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-
+            var transactionObj = db.Database.BeginTransaction();
+            try { 
 
             AspNetUser aspNetUser = db.AspNetUsers.Find(id);
             AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
@@ -250,11 +248,13 @@ namespace MappingProject.Controllers
             db.AspNetDriver_Vehicle.Remove(DriverVehicleObj);
             db.AspNetVehicles.Remove(VehicleObj);
             db.SaveChanges();
-
-            //AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-            //db.AspNetUsers.Remove(aspNetUser);
-            //db.SaveChanges();
-            return RedirectToAction("Index");
+                transactionObj.Commit();
+            }
+            catch(Exception)
+            {
+                transactionObj.Dispose();
+            }
+                return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -277,17 +277,26 @@ namespace MappingProject.Controllers
         [HttpPost, ActionName("DriverDelete")]
         public ActionResult DriverDeletePost(string id)
         {
-            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-            AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
-        
-            AspNetDriver_Vehicle DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == id) ;
-            AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x=>x.Id==DriverVehicleObj.VehicleID);
-           
-            db.AspNetUsers.Remove(aspNetUser);
-            db.AspNetManager_Drivers.Remove(ManagerDriverObj);
-            db.AspNetDriver_Vehicle.Remove(DriverVehicleObj);
-            db.AspNetVehicles.Remove(VehicleObj);
-            db.SaveChanges();
+            var transactionObj = db.Database.BeginTransaction();
+            try
+            {
+                AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+                AspNetManager_Drivers ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
+
+                AspNetDriver_Vehicle DriverVehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(x => x.DriverID == id);
+                AspNetVehicle VehicleObj = db.AspNetVehicles.FirstOrDefault(x => x.Id == DriverVehicleObj.VehicleID);
+
+                db.AspNetUsers.Remove(aspNetUser);
+                db.AspNetManager_Drivers.Remove(ManagerDriverObj);
+                db.AspNetDriver_Vehicle.Remove(DriverVehicleObj);
+                db.AspNetVehicles.Remove(VehicleObj);
+                db.SaveChanges();
+                transactionObj.Commit();
+            }
+            catch(Exception)
+            {
+                transactionObj.Dispose();
+            }
             return RedirectToAction("DriverIndex");
         }
 
