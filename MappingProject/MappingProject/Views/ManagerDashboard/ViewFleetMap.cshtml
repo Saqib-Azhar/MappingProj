@@ -1,8 +1,8 @@
-﻿<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
-<script src="~/js/jquery-1.10.2.min.js"></script>
+﻿
+
 <script type="text/javascript">
     $(document).ready(function () {
-
+        document.getElementsByTagName("base")[0].setAttribute("href", "");
          GetDrivers();
             function GetDrivers(){
                 selectedManager = '@(ViewBag.ManagerID)';
@@ -50,7 +50,7 @@
         function myMap() {
             var mapCanvas = document.getElementById("map");
             var myCenter = new google.maps.LatLng(latiVar, longVar);
-            var mapOptions = { center: myCenter, zoom: 11 };
+            var mapOptions = { center: myCenter, zoom: 17 };
             map = new google.maps.Map(mapCanvas, mapOptions);
             marker = new google.maps.Marker({
                 position: myCenter,
@@ -68,6 +68,9 @@
                 console.log("vehicle id here is: ", vehicleID);
                 $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
                                 { id: vehicleID }, function (data) {
+                                    $("#rpm").data("kendoRadialGauge").value(data.EngineRPM);
+                                    $("#kmh").data("kendoRadialGauge").value(data.Speed); 
+                                    $("#fuel").data("kendoRadialGauge").value(data.FuelPressure);
 
                                     console.log("data with stringify function : ", JSON.stringify(data));
                                     console.log("data without stringify function: ", data);
@@ -340,8 +343,7 @@
                 gear = 0;
 
             function update() {
-                $("#rpm").data("kendoRadialGauge").value(GEARS[gear] * speed + IDLE_RPM);
-                $("#kmh").data("kendoRadialGauge").value(speed);
+               
 
 
 
@@ -535,7 +537,8 @@
             </div>
         </div>
     </div>
-
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
 </body>
 </html>
 
