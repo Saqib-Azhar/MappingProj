@@ -15,27 +15,9 @@ namespace MappingProject.Controllers
     {
         private MappingDatabaseEntities db = new MappingDatabaseEntities();
 
-
-
-
-
-
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //public class readings
-        //{
-        //    public string vehicleid { get; set; }
-        //    public float longitude { get; set; }
-        //    public float latitude { get; set; }
-        //    public string ENGINE_RPM { get; set; }
-        //    public float Speed { get; set; }
-        //    public float FuelPressure { get; set; }
-        //    public float Throttle_Pos { get; set; }
-        //    public string FuelType { get; set; }
-        //    public float Fuel_Rail_Pressure { set; get; }
-        //    public string TimeStamp { get; set; }
-        //}
 
         public class ObdReading
         {
@@ -62,17 +44,62 @@ namespace MappingProject.Controllers
 
         public void UpdateDB(ObdReading reading)
         {
-         
             var vehicleobj = db.AspNetVehicles.FirstOrDefault(s => s.VehicleID == reading.vehicleid);
             var ReadingObj = new AspNetVehicleLocationTable();
+
             ReadingObj.LastLatitude = reading.latitude;
             ReadingObj.LastLongitude = reading.longitude;
-            ReadingObj.EngineRPM = Regex.Replace(reading.readings.ENGINE_RPM, "[A-Za-z ]", "");
-            ReadingObj.Speed = Regex.Replace(reading.readings.SPEED, "[A-Za-z ]", "");
-            ReadingObj.FuelPressure = Regex.Replace(reading.readings.FUEL_PRESSURE, "[A-Za-z ]", "");
-            ReadingObj.Throttle_Pos = Regex.Replace(reading.readings.THROTTLE_POS, "[A-Za-z ]", "");
-            ReadingObj.FuelType = Regex.Replace(reading.readings.FUEL_TYPE, "[A-Za-z ]", "");
-            ReadingObj.TimeStamp = Convert.ToInt32(reading.timestamp);
+            if (reading.readings.ENGINE_RPM == null)
+            {
+                reading.readings.ENGINE_RPM = "0";
+            }
+            else
+            {
+                ReadingObj.EngineRPM = Regex.Replace(reading.readings.ENGINE_RPM, "[A-Za-z ]", "");
+                float engineRPM = Convert.ToInt32(ReadingObj.EngineRPM);
+                ReadingObj.EngineRPM = Convert.ToString(engineRPM / 1000);
+            }
+
+            if (reading.readings.SPEED == null)
+            {
+                reading.readings.SPEED = "0";
+            }
+            else
+            {
+                ReadingObj.Speed = Regex.Replace(reading.readings.SPEED, "[A-Za-z ]", "");
+                ReadingObj.Speed = Regex.Replace(ReadingObj.Speed, "/", "");
+            }
+
+            if (reading.readings.FUEL_PRESSURE == null)
+            {
+                reading.readings.FUEL_PRESSURE = "0";
+            }
+            else
+            {
+                ReadingObj.FuelPressure = Regex.Replace(reading.readings.FUEL_PRESSURE, "[A-Za-z ]", "");
+            }
+
+            if (reading.readings.THROTTLE_POS == null)
+            {
+                reading.readings.THROTTLE_POS = "0";
+            }
+            else
+            {
+                ReadingObj.Throttle_Pos = Regex.Replace(reading.readings.THROTTLE_POS, "[A-Za-z ]", "");
+                ReadingObj.Throttle_Pos = Regex.Replace(reading.readings.THROTTLE_POS, "%", "");
+            }
+
+            if (reading.readings.FUEL_TYPE == null)
+            {
+                reading.readings.FUEL_TYPE = "0";
+            }
+            else
+            {
+                ReadingObj.FuelType = Regex.Replace(reading.readings.FUEL_TYPE, "[A-Za-z ]", "");
+            }
+
+
+            // ReadingObj.TimeStamp = Convert.ToInt32(reading.timestamp);
             ReadingObj.VehicleID = vehicleobj.Id;
             db.AspNetVehicleLocationTables.Add(ReadingObj);
             db.SaveChanges();
@@ -163,9 +190,7 @@ namespace MappingProject.Controllers
             db.Configuration.ProxyCreationEnabled = false;
 
             var VehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == id);
-
-            //var HistoryLogs = new SelectList(db.AspNetVehicleLocationTables.Where(s => s.VehicleID == VehicleObj.VehicleID)).ToList();
-
+            
             var HistoryLogs = (from log in db.AspNetVehicleLocationTables
                                where log.VehicleID == VehicleObj.VehicleID
                                select new { log.Id, log.LastLatitude, log.LastLongitude,log.Speed,log.Throttle_Pos,log.TimeStamp,log.VehicleID,log.EngineRPM,log.FuelPressure,log.FuelType,log.Fuel_Rail_Pressure }).ToList();

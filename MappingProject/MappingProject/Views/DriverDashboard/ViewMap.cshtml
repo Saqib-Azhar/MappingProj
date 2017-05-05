@@ -212,10 +212,6 @@
                 gear = 0;
 
             function update() {
-                $("#rpm").data("kendoRadialGauge").value(GEARS[gear] * speed + IDLE_RPM);
-                $("#kmh").data("kendoRadialGauge").value(speed);
-
-
 
             }
 
@@ -414,7 +410,7 @@
             function myMap() {
                 var mapCanvas = document.getElementById("map");
                 var myCenter = new google.maps.LatLng(latiVar, longVar);
-                var mapOptions = {center: myCenter, zoom: 11};
+                var mapOptions = {center: myCenter, zoom: 17};
                 map = new google.maps.Map(mapCanvas,mapOptions);
                 marker = new google.maps.Marker({
                     position: myCenter,
@@ -444,7 +440,10 @@
                                         var newFuelType = data.FuelType;
                                         var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
                                         var newTimeStamp = data.TimeStamp;
-
+                                        
+                                        $("#rpm").data("kendoRadialGauge").value(data.EngineRPM);
+                                        $("#kmh").data("kendoRadialGauge").value(data.Speed); 
+                                        $("#fuel").data("kendoRadialGauge").value(data.FuelPressure);
                                           
                                           $("#vehicleIdDiv").html(vehicleID);
                                           $("#longitudeDiv").html(toLng);
