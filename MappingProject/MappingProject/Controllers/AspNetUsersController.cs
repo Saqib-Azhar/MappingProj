@@ -326,12 +326,13 @@ namespace MappingProject.Controllers
                 AspNetAdmin_Managers AdminManagerObj = db.AspNetAdmin_Managers.FirstOrDefault(x => x.ManagerID == id);
                 AspNetManager_Drivers ManagerDriverObj = new AspNetManager_Drivers();
 
-                do
+                ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
+                while (ManagerDriverObj != null)
                 {
                     ManagerDriverObj = db.AspNetManager_Drivers.FirstOrDefault(x => x.DriverID == id);
                     db.AspNetManager_Drivers.Remove(ManagerDriverObj);
                     db.SaveChanges();
-                } while (ManagerDriverObj != null);
+                }
                 db.AspNetUsers.Remove(aspNetUser);
                 db.AspNetAdmin_Managers.Remove(AdminManagerObj);
                 db.SaveChanges();
