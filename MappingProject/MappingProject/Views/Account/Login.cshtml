@@ -3,11 +3,26 @@
 @{
     ViewBag.Title = "Log in";
 }
+<style>
+    .logdiv{
+background-color:#428bca;
+border-radius:20px;
 
-<div >
+    }
+    body {
+    background-color:rgb(236, 248, 251);
+    }
+    form-horizontal .form-group {
+    margin-right: -50px !important;
+    margin-left: -145px !important;
+}
+</style>
+
+<div  class="" >
     <h1 class="text-center"><b>@ViewBag.Title</b></h1>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 logdiv align-center">
             <section id="loginForm" class="text-center">
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -16,14 +31,14 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-md-offset-3 control-label" })
-                <div class="col-md-4 ">
+                <div class="col-md-6 ">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-md-offset-3 control-label" })
-                <div class="col-md-4">
+                <div class="col-md-6">
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
