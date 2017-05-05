@@ -439,106 +439,88 @@
     <title>FleetHistory</title>
 </head>
 <body>
+
     <div class="row">
-        <br />
         <div class="form-group">
-            <br />
-            <label class="control-label col-md-2"><b>Select Driver</b></label>
-            <div class="col-md-10">
-                <select class="form-control" id="DriverID" disabled></select>
-            </div>
-        </div>
-
-    </div>
-    <br />
-
-
-    <table class="table table-responsive table-bordered"  align="center">
-        <thead>
-            <tr>
-                <td align="center" colspan="9" id="VehicleIDval">
-                    <b><u>Vehicle ID: </u></b>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <b><u>Latitude</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Longitude</u></b>
-                </td>
-                <td align="center">
-                    <b><u>EngineRPM</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Speed</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Fuel Pressure</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Throttle Pos</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Fuel Type</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Fuel Rail Pressure</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Time Stamp</u></b>
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td align="center" id="latitudeDiv">
-                    @ViewBag.LastLatitude
-                </td>
-                <td align="center" id="longitudeDiv">
-                    @ViewBag.LastLongitude
-                </td>
-                <td align="center" id="enginerpmDiv">
-                    @ViewBag.EngineRPM
-                </td>
-                <td align="center" id="speedDiv">
-                    @ViewBag.Speed
-                </td>
-                <td align="center" id="fuelpressureDiv">
-                    @ViewBag.FuelPressure
-                </td>
-                <td align="center" id="throttle_posDiv">
-                    @ViewBag.Throttle_Pos
-                </td>
-                <td align="center" id="fueltypeDiv">
-                    @ViewBag.FuelType
-                </td>
-                <td align="center" id="fuel_rail_pressureDiv">
-                    @ViewBag.Fuel_Rail_Pressure
-                </td>
-                <td align="center" id="timestampDiv">
-                    @ViewBag.TimeStamp
-                </td>
-            </tr>
-            <tr>
-                <td id="map" style="width:900px;height:400px" colspan="9"></td>
-            </tr>
-        </tbody>
-    </table>
-    <div></div>
-    <br><br>
-    <div class="box_info center-block">
-        <div id="example">
-            <div id="gauge-container" class="hidden-on-narrow">
-                <div id="rpm"></div>
-                <div id="kmh"></div>
-                <div id="fuel"></div>
-                <div id="water-temprature"></div>
+            <div class="well well-lg" style="background-color:white;">
+                <label class="control-label col-md-2"><b>Select Driver</b></label>
+                <div class="col-md-10">
+                    <select class="form-control" id="DriverID" disabled></select>
+                </div>
+                <br />
             </div>
         </div>
     </div>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
+
+
+
+    <div class="row">
+        <div class="form-group">
+            <div class="well well-lg" style="background-color:white;">
+
+
+
+
+                <table class="table table-responsive table-bordered" align="center">
+                    <thead>
+                        <tr>
+                            <td align="center" colspan="9" id="VehicleIDval">
+                                <b><u>Vehicle ID: </u></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <b><u>Latitude</u></b>
+                            </td>
+                            <td align="center">
+                                <b><u>Longitude</u></b>
+                            </td>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" id="latitudeDiv">
+                                @ViewBag.LastLatitude
+                            </td>
+                            <td align="center" id="longitudeDiv">
+                                @ViewBag.LastLongitude
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td id="map" style="width:900px;height:400px" colspan="9"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div></div>
+                <br><br>
+                <div class="box_info center-block">
+                    <div id="example">
+                        <div id="gauge-container" class="hidden-on-narrow">
+                            <div id="rpm"></div>
+                            <div id="kmh"></div>
+                            <div id="fuel"></div>
+                            <div id="water-temprature"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                </div></div></div>
+
+
+
+
+
+
+
+                <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
 </body>
 </html>
 

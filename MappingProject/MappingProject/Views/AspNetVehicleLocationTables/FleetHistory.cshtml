@@ -54,67 +54,101 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
+
     <div class="row">
         <div class="form-group">
-            <lable class="control-label col-md-2"><b>Select Manager</b></lable>
-            <div class="col-md-10">
-                @Html.DropDownList("ManagerID", null, htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <br />
-            <label class="control-label col-md-2"><b>Select Driver</b></label>
-            <div class="col-md-10">
-                <select class="form-control" id="DriverID" disabled></select>
-            </div>
-        </div>
+            <div class="well well-lg" style="background-color:white;">
 
+
+
+
+
+
+                <div class="row">
+                    <div class="form-group">
+                        <lable class="control-label col-md-2"><b>Select Manager</b></lable>
+                        <div class="col-md-10">
+                            @Html.DropDownList("ManagerID", null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <br />
+                        <label class="control-label col-md-2"><b>Select Driver</b></label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="DriverID" disabled></select>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
     </div>
+
+
+
     <br />
 
-    <table class="table table-bordered table-responsive table-striped">
-    <tr>
-        <td>
-            Latitude
-        </td>
-        <td>
-            Longitude
-        </td>
-        <td>
-            EngineRPM
-        </td>
-        <td>
-            Speed
-        </td>
-        <td>
-            Fuel Pressure
-        </td>
-        <td>
-            Throttle Position
-        </td>
-        <td>
-            Fuel Type
-        </td>
-        <td>
-            Fuel Rail Pressure
-        </td>
-        <td>
-            Time
-        </td>
-        <td>
-            VehicleID
-        </td>
-        @*<td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>*@
-    </tr>
-        <tbody id="HistoryTable"></tbody>
 
-    
+    <div class="row">
+        <div class="form-group">
+            <div class="well well-lg" style="background-color:white;">
 
-    </table>
+
+
+
+
+                <table class="table table-bordered table-responsive table-striped">
+                    <tr>
+                        <td>
+                            Latitude
+                        </td>
+                        <td>
+                            Longitude
+                        </td>
+                        <td>
+                            EngineRPM
+                        </td>
+                        <td>
+                            Speed
+                        </td>
+                        <td>
+                            Fuel Pressure
+                        </td>
+                        <td>
+                            Throttle Position
+                        </td>
+                        <td>
+                            Fuel Type
+                        </td>
+                        <td>
+                            Fuel Rail Pressure
+                        </td>
+                        <td>
+                            Time
+                        </td>
+                        <td>
+                            VehicleID
+                        </td>
+                        @*<td>
+                                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                            </td>*@
+                    </tr>
+                    <tbody id="HistoryTable"></tbody>
+
+
+
+                </table>
+
+
+                </div></div></div>
+
+
 </body>
 </html>

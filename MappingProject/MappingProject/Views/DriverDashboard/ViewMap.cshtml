@@ -301,186 +301,144 @@
 <html>
 
 <body>
-    <table border="1" class="table table-bordered table-responsive" align="center">
-        <thead>
-            <tr>
-                <td align="center" colspan="9" id="vehicleIdDiv">
-                    <b><u>Vehicle ID:</u></b>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <b><u>Latitude</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Longitude</u></b>
-                </td>
-                <td align="center">
-                    <b><u>EngineRPM</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Speed</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Fuel Pressure</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Throttle Pos</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Fuel Type</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Fuel Rail Pressure</u></b>
-                </td>
-                <td align="center">
-                    <b><u>Time Stamp</u></b>
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td align="center" id="latitudeDiv">
-                    @ViewBag.LastLatitude
-                </td>
-                <td align="center" id="longitudeDiv">
-                    @ViewBag.LastLongitude
-                </td>
-                <td align="center" id="enginerpmDiv">
-                    @ViewBag.EngineRPM
-                </td>
-                <td align="center" id="speedDiv">
-                    @ViewBag.Speed
-                </td>
-                <td align="center" id="fuelpressureDiv">
-                    @ViewBag.FuelPressure
-                </td>
-                <td align="center" id="throttle_posDiv">
-                    @ViewBag.Throttle_Pos
-                </td>
-                <td align="center" id="fueltypeDiv">
-                    @ViewBag.FuelType
-                </td>
-                <td align="center" id="fuel_rail_pressureDiv">
-                    @ViewBag.Fuel_Rail_Pressure
-                </td>
-                <td align="center" id="timestampDiv">
-                    @ViewBag.TimeStamp
-                </td>
-            </tr>
-            <tr>
-                <td id="map" style="width:900px;height:400px" colspan="9"></td>
-            </tr>
-        </tbody>
-    </table>
-    <div></div>
-    <br><br>
-    <div class="box_info center-block">
-        <div id="example">
-            <div id="gauge-container" class="hidden-on-narrow">
-                <div id="rpm"></div>
-                <div id="kmh"></div>
-                <div id="fuel"></div>
-                <div id="water-temprature"></div>
-            </div>
-        </div>
-    </div>
-        <script>
+    <div class="row">
+        <div class="form-group">
+            <div class="well well-lg" style="background-color:white;">
+                <table border="1" class="table table-bordered table-responsive" align="center">
+                    <thead>
+                        <tr>
+                            <td align="center" colspan="9" id="vehicleIdDiv">
+                                <b><u>Vehicle ID:</u></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <b><u>Latitude</u></b>
+                            </td>
+                            <td align="center">
+                                <b><u>Longitude</u></b>
+                            </td>
 
-            function mapUpdater(latit,long)
-            {
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" id="latitudeDiv">
+                                @ViewBag.LastLatitude
+                            </td>
+                            <td align="center" id="longitudeDiv">
+                                @ViewBag.LastLongitude
+                            </td>
 
-                var myCenter = new google.maps.LatLng(latit, long);
-                map.setCenter(myCenter);
-                marker.setPosition(new google.maps.LatLng(latit,long));
-            }
+                        </tr>
+                        <tr>
+                            <td id="map" style="width:900px;height:400px" colspan="9"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div></div>
+                <br><br>
+                <div class="box_info center-block">
+                    <div id="example">
+                        <div id="gauge-container" class="hidden-on-narrow">
+                            <div id="rpm"></div>
+                            <div id="kmh"></div>
+                            <div id="fuel"></div>
+                            <div id="water-temprature"></div>
+                        </div>
+                    </div>
+                </div>
+                </div></div></div>
+                <script>
+
+                    function mapUpdater(latit,long)
+                    {
+
+                        var myCenter = new google.maps.LatLng(latit, long);
+                        map.setCenter(myCenter);
+                        marker.setPosition(new google.maps.LatLng(latit,long));
+                    }
 
 
-            var vehicleID = @ViewBag.CarID;
-            var fromLng = @ViewBag.LastLongitude;
-            var fromLat = @ViewBag.LastLatitude;
-            var toLng = @ViewBag.LastLongitude;
-            var toLat = @ViewBag.LastLatitude;
+                    var vehicleID = @ViewBag.CarID;
+                    var fromLng = @ViewBag.LastLongitude;
+                    var fromLat = @ViewBag.LastLatitude;
+                    var toLng = @ViewBag.LastLongitude;
+                    var toLat = @ViewBag.LastLatitude;
 
 
-            var longVar = @ViewBag.LastLongitude;
-            var latiVar = @ViewBag.LastLatitude;
-            var marker;
-            var map;
-            function myMap() {
-                var mapCanvas = document.getElementById("map");
-                var myCenter = new google.maps.LatLng(latiVar, longVar);
-                var mapOptions = {center: myCenter, zoom: 17};
-                map = new google.maps.Map(mapCanvas,mapOptions);
-                marker = new google.maps.Marker({
-                    position: myCenter,
-                    animation: google.maps.Animation.BOUNCE
-                });
-                marker.setMap(map);
-                setInterval(updateView,2000);
-                //UpdateCurser();
+                    var longVar = @ViewBag.LastLongitude;
+                    var latiVar = @ViewBag.LastLatitude;
+                    var marker;
+                    var map;
+                    function myMap() {
+                        var mapCanvas = document.getElementById("map");
+                        var myCenter = new google.maps.LatLng(latiVar, longVar);
+                        var mapOptions = {center: myCenter, zoom: 17};
+                        map = new google.maps.Map(mapCanvas,mapOptions);
+                        marker = new google.maps.Marker({
+                            position: myCenter,
+                            animation: google.maps.Animation.BOUNCE
+                        });
+                        marker.setMap(map);
+                        setInterval(updateView,2000);
+                        //UpdateCurser();
 
-                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                function updateView()
-                {
-                    console.log("vehicle id is here: ",vehicleID);
-                    $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
-                                    { id: vehicleID }, function (data) {
+                        function updateView()
+                        {
+                            console.log("vehicle id is here: ",vehicleID);
+                            $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
+                                            { id: vehicleID }, function (data) {
 
-                                        console.log("data with stringify function : ",JSON.stringify(data));
-                                        console.log("data without stringify function: ",data);
-                                        toLng = data.LastLongitude;
-                                        toLat = data.LastLatitude;
+                                                console.log("data with stringify function : ",JSON.stringify(data));
+                                                console.log("data without stringify function: ",data);
+                                                toLng = data.LastLongitude;
+                                                toLat = data.LastLatitude;
 
-                                        var newEngineRPM = data.EngineRPM;
-                                        var newSpeed = data.Speed;
-                                        var newFuelPressure = data.FuelPressure;
-                                        var newThrottle_Pos = data.Throttle_Pos;
-                                        var newFuelType = data.FuelType;
-                                        var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
-                                        var newTimeStamp = data.TimeStamp;
-                                        
-                                        $("#rpm").data("kendoRadialGauge").value(data.EngineRPM);
-                                        $("#kmh").data("kendoRadialGauge").value(data.Speed); 
-                                        $("#fuel").data("kendoRadialGauge").value(data.FuelPressure);
-                                          
-                                          $("#vehicleIdDiv").html(vehicleID);
-                                          $("#longitudeDiv").html(toLng);
-                                          $("#latitudeDiv").html(toLat);
-                                          $("#enginerpmDiv").html(newEngineRPM);
-                                          $("#speedDiv").html(newSpeed);
-                                          $("#fuel_rail_pressureDiv").html(newFuelPressure);
-                                          $("#throttle_posDiv").html(newThrottle_Pos);
-                                          $("#fueltypeDiv").html(newFuelType);
-                                          $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
-                                          $("#timestampDiv").html(newTimeStamp);
+                                                var newEngineRPM = data.EngineRPM;
+                                                var newSpeed = data.Speed;
+                                                var newFuelPressure = data.FuelPressure;
+                                                var newThrottle_Pos = data.Throttle_Pos;
+                                                var newFuelType = data.FuelType;
+                                                var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
+                                                var newTimeStamp = data.TimeStamp;
 
-                                        if(toLng!=fromLng || toLat!=fromLat)
-                                        {
-                                            fromLng=toLng;
-                                            fromLat=toLat;
-                                            mapUpdater(toLat,toLng);
-                                        }
+                                                $("#rpm").data("kendoRadialGauge").value(data.EngineRPM);
+                                                $("#kmh").data("kendoRadialGauge").value(data.Speed);
+                                                $("#fuel").data("kendoRadialGauge").value(data.FuelPressure);
 
-                                    });
+                                                $("#vehicleIdDiv").html(vehicleID);
+                                                $("#longitudeDiv").html(toLng);
+                                                $("#latitudeDiv").html(toLat);
 
 
-                };
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                if(toLng!=fromLng || toLat!=fromLat)
+                                                {
+                                                    fromLng=toLng;
+                                                    fromLat=toLat;
+                                                    mapUpdater(toLat,toLng);
+                                                }
+
+                                            });
+
+
+                        };
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
 
 
 
-            }
+                    }
 
-        </script>
+                </script>
 
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
-    
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
+
 
 
 </body>
