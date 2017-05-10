@@ -1,11 +1,186 @@
-﻿@model IEnumerable<MappingProject.Models.AspNetVehicleLocationTable>
+﻿
 
-@{
-    ViewBag.Title = "DriverViewUpdate";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var vehicleID;
+        var fromLng;
+        var fromLat;
+        var toLng;
+        var toLat;
+        var oldLat;
+        var oldLang;
+        var oldSpeed;
+        var longVar;
+        var latiVar;
+        var marker;
+        var map;
+
+        document.getElementsByTagName("base")[0].setAttribute("href", "");
+
+        var intervalID;
+        GetData();
+            function GetData(){
+                //clearInterval(intervalID);
+                var DriverID = '@(ViewBag.DriverID)';
+            $.get('@Url.Action("MapData", "AspNetVehicleLocationTables")',
+                   { id: DriverID }, function (data) {
+                       vehicleID = data.VehicleID;
+                       fromLng = data.LastLongitude;
+                       fromLat = data.LastLatitude;
+                       toLng = data.LastLongitude;
+                       toLat = data.LastLatitude;
+
+                       $("#VehicleIDval").html('<b>' + "Vehicle: " + vehicleID + '</b>');
+
+                       longVar = data.LastLongitude;
+                       latiVar = data.LastLatitude;
+                       marker;
+                       map;
+                       myMap();
+
+                       console.log("initial values", data);
+                       $.get('@Url.Action("OverSpeedData", "AspNetVehicleLocationTables")',
+                                    { id: DriverID }, function (data) {
+
+                                        $.each(data, function (i, item) {
+                                            marker = new google.maps.Marker({
+                                                position: new google.maps.LatLng(item.latitude, item.longitude),
+                                                map: map,
+                                                title: 'OverSpeed',
+                                                icon: '/img/brown_markerA.png'
+                                            });
+                                        });
+                                    });
+
+                   });
+
+            }
 
 
+        function mapUpdater(latit, long) {
+
+            var myCenter = new google.maps.LatLng(latit, long);
+            map.setCenter(myCenter);
+            marker.setPosition(new google.maps.LatLng(latit, long));
+        }
+        function myMap() {
+            var mapCanvas = document.getElementById("map");
+            var myCenter = new google.maps.LatLng(latiVar, longVar);
+            var mapOptions = { center: myCenter, zoom: 10 };
+            map = new google.maps.Map(mapCanvas, mapOptions);
+            marker = new google.maps.Marker({
+                position: myCenter,
+                animation: google.maps.Animation.BOUNCE
+            });
+            marker.setMap(map);
+            intervalID = setInterval(updateView, 2000);
+            //UpdateCurser();
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Define the LatLng coordinates for the polygon's path.
+            var LahoreCoord = [
+              { lat: 31.622465, lng: 74.421028 },
+              { lat: 31.546218, lng: 74.438518 },
+              { lat: 31.447361, lng: 74.507470 },
+              { lat: 31.440946, lng: 74.413826 },
+              { lat: 31.332476, lng: 74.184747 },
+              { lat: 31.394625, lng: 74.144921 },
+              { lat: 31.467275, lng: 74.224526 },
+              { lat: 31.614580, lng: 74.303744 }
+            ];
+
+            // Construct the polygon.
+            var LahoreMap = new google.maps.Polygon({
+                paths: LahoreCoord,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2
+            });
+            LahoreMap.setMap(map);
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+            function updateView() {
+                console.log("vehicle id here is: ", vehicleID);
+                $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
+                                { id: vehicleID }, function (data) {
+                                    $("#rpm").data("kendoRadialGauge").value(data.EngineRPM);
+                                    $("#kmh").data("kendoRadialGauge").value(data.Speed);
+                                    $("#fuel").data("kendoRadialGauge").value(data.FuelPressure);
+
+                                    toLng = data.LastLongitude;
+                                    toLat = data.LastLatitude;
+                                    var coordinate = new google.maps.LatLng(data.LastLatitude, data.LastLongitude);
+                                    var checkLocation = 0;
+                                    var newEngineRPM = data.EngineRPM;
+                                    var newSpeed = data.Speed;
+                                    var newFuelPressure = data.FuelPressure;
+                                    var newThrottle_Pos = data.Throttle_Pos;
+                                    var newFuelType = data.FuelType;
+                                    var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
+                                    var newTimeStamp = data.TimeStamp;
+
+                                    if (oldSpeed < 50 && newSpeed >= 50) {
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(oldLat, oldLang),
+                                            map: map,
+                                            title: 'OverSpeed',
+                                            icon: '/img/brown_markerA.png'
+                                        });
+                                    }
+
+                                    if (google.maps.geometry.poly.containsLocation(coordinate, LahoreMap) == true) {
+                                        $("#alertDiv").attr('hidden');
+                                       $("#alertDiv").html('<b>' + "Car is in Lahore " + '</b>');
+                                    }
+                                    else {
+                                        $("#alertDiv").removeAttr('hidden');
+                                        $("#alertDiv").html('<b>' + "Car is in not Lahore " + '</b>');
+
+                                    }
+
+                                    $("#fuelpressureDiv").html(newFuelPressure);
+                                    $("#longitudeDiv").html(toLng);
+                                    $("#latitudeDiv").html(toLat);
+                                    $("#enginerpmDiv").html(newEngineRPM);
+                                    $("#speedDiv").html(newSpeed);
+                                    $("#fuel_rail_pressureDiv").html(newFuelPressure);
+                                    $("#throttle_posDiv").html(newThrottle_Pos);
+                                    $("#fueltypeDiv").html(newFuelType);
+                                    $("#fuel_tail_pressureDiv").html(newFuel_Rail_Pressure);
+                                    $("#timestampDiv").html(newTimeStamp);
+
+                                    if (toLng != fromLng || toLat != fromLat) {
+                                        oldLat = toLat;
+                                        oldLang = toLng;
+                                        fromLng = toLng;
+                                        fromLat = toLat;
+                                        oldSpeed = newSpeed;
+                                        mapUpdater(toLat, toLng);
+                                    }
+
+                                });
+
+            };
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        }
+
+
+
+
+                       $("#VehicleIDval").html('<b>'+"Vehicle ID: "+ vehicleID+'</b>')
+
+      });
+
+
+
+
+
+
+</script>
 
 <base href="http://demos.telerik.com/kendo-ui/radial-gauge/car-dashboard">
 <style>
@@ -13,14 +188,15 @@
         font-size: 14px;
         font-family: Arial, Helvetica, sans-serif;
     }
+
     .box_info {
         border: 10px solid lightgrey;
-    border-top-left-radius: 352px;
-    border-top-right-radius: 352px;
-    background-color: black;
-    border-bottom-right-radius: 60px;
-    border-bottom-left-radius: 60px;
-    width: 77%;
+        border-top-left-radius: 352px;
+        border-top-right-radius: 352px;
+        background-color: black;
+        border-bottom-right-radius: 60px;
+        border-bottom-left-radius: 60px;
+        width: 77%;
     }
 </style>
 
@@ -41,7 +217,7 @@
 
 
 
-    <script>
+<script>
         function createDashboard() {
             $("#rpm").kendoRadialGauge({
                 theme: "black",
@@ -213,6 +389,9 @@
 
             function update() {
 
+
+
+
             }
 
             animateInterval = setInterval(function() {
@@ -249,96 +428,90 @@
                 clearInterval(animateInterval);
             });
         });
-    </script>
+</script>
 
-    <style>
-        #gauge-container {
-            margin: 0 auto;
-            overflow: hidden;
-            width: 614px;
-            height: 324px;
-            background: transparent url("../content/dataviz/dashboards/car-dashboard.png") no-repeat 50% 50%;
-        }
+<style>
+    #gauge-container {
+        margin: 0 auto;
+        overflow: hidden;
+        width: 614px;
+        height: 324px;
+        background: transparent url("../content/dataviz/dashboards/car-dashboard.png") no-repeat 50% 50%;
+    }
 
-        .k-gauge {
-            float: left;
-        }
+    .k-gauge {
+        float: left;
+    }
 
-        #rpm {
-            width: 142px;
-            height: 147px;
-            margin: 85px 0 0 38px;
-        }
+    #rpm {
+        width: 142px;
+        height: 147px;
+        margin: 85px 0 0 38px;
+    }
 
-        #kmh {
-            width: 216px;
-            height: 216px;
-            margin: 57px 0 0 20px;
-        }
+    #kmh {
+        width: 216px;
+        height: 216px;
+        margin: 57px 0 0 20px;
+    }
 
-        #fuel {
-            width: 77px;
-            height: 84px;
-            margin: 90px 0 0 68px;
-        }
+    #fuel {
+        width: 77px;
+        height: 84px;
+        margin: 90px 0 0 68px;
+    }
 
-        #water-temprature {
-            width: 84px;
-            height: 80px;
-            margin: -7px 0 0 62px;
-        }
-    </style>
-
-
+    #water-temprature {
+        width: 84px;
+        height: 80px;
+        margin: -7px 0 0 62px;
+    }
+</style>
 
 
 
 
 
-<script src="~/js/jquery-1.10.2.min.js"></script>
+
+
+
 
 <!DOCTYPE html>
-<html>
 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FleetHistory</title>
+</head>
 <body>
+
+
+
+
+
     <div class="row">
         <div class="form-group">
             <div class="well well-lg" style="background-color:white;">
-                <table border="1" class="table table-bordered table-responsive" align="center">
-                    <thead>
-                        <tr>
-                            <td align="center" colspan="9" id="vehicleIdDiv">
-                                <b><u>Vehicle ID:</u></b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="center">
-                                <b><u>Latitude</u></b>
-                            </td>
-                            <td align="center">
-                                <b><u>Longitude</u></b>
-                            </td>
 
-                        </tr>
-                    </thead>
+
+
+
+                <table class="table table-responsive table-bordered" align="center">
+
                     <tbody>
-                        <tr>
-                            <td align="center" id="latitudeDiv">
-                                @ViewBag.LastLatitude
-                            </td>
-                            <td align="center" id="longitudeDiv">
-                                @ViewBag.LastLongitude
-                            </td>
 
-                        </tr>
                         <tr>
                             <td id="map" style="width:900px;height:400px" colspan="9"></td>
                         </tr>
                     </tbody>
                 </table>
+
+
                 <div></div>
                 <br><br>
+                <div class="alert alert-danger" role="alert" id="alertDiv" style="align-items:center;align-self:center;text-align:center;" hidden></div>
                 <div class="box_info center-block">
+                    <br />
                     <div id="example">
                         <div id="gauge-container" class="hidden-on-narrow">
                             <div id="rpm"></div>
@@ -348,99 +521,22 @@
                         </div>
                     </div>
                 </div>
-                </div></div></div>
-                <script>
-
-                    function mapUpdater(latit,long)
-                    {
-
-                        var myCenter = new google.maps.LatLng(latit, long);
-                        map.setCenter(myCenter);
-                        marker.setPosition(new google.maps.LatLng(latit,long));
-                    }
 
 
-                    var vehicleID = @ViewBag.CarID;
-                    var fromLng = @ViewBag.LastLongitude;
-                    var fromLat = @ViewBag.LastLatitude;
-                    var toLng = @ViewBag.LastLongitude;
-                    var toLat = @ViewBag.LastLatitude;
 
 
-                    var longVar = @ViewBag.LastLongitude;
-                    var latiVar = @ViewBag.LastLatitude;
-                    var marker;
-                    var map;
-                    function myMap() {
-                        var mapCanvas = document.getElementById("map");
-                        var myCenter = new google.maps.LatLng(latiVar, longVar);
-                        var mapOptions = {center: myCenter, zoom: 17};
-                        map = new google.maps.Map(mapCanvas,mapOptions);
-                        marker = new google.maps.Marker({
-                            position: myCenter,
-                            animation: google.maps.Animation.BOUNCE
-                        });
-                        marker.setMap(map);
-                        setInterval(updateView,2000);
-                        //UpdateCurser();
-
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                        function updateView()
-                        {
-                            console.log("vehicle id is here: ",vehicleID);
-                            $.get('@Url.Action("UpdateView", "AspNetVehicleLocationTables")',
-                                            { id: vehicleID }, function (data) {
-
-                                                console.log("data with stringify function : ",JSON.stringify(data));
-                                                console.log("data without stringify function: ",data);
-                                                toLng = data.LastLongitude;
-                                                toLat = data.LastLatitude;
-
-                                                var newEngineRPM = data.EngineRPM;
-                                                var newSpeed = data.Speed;
-                                                var newFuelPressure = data.FuelPressure;
-                                                var newThrottle_Pos = data.Throttle_Pos;
-                                                var newFuelType = data.FuelType;
-                                                var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
-                                                var newTimeStamp = data.TimeStamp;
-
-                                                $("#rpm").data("kendoRadialGauge").value(data.EngineRPM);
-                                                $("#kmh").data("kendoRadialGauge").value(data.Speed);
-                                                $("#fuel").data("kendoRadialGauge").value(data.FuelPressure);
-
-                                                $("#vehicleIdDiv").html(vehicleID);
-                                                $("#longitudeDiv").html(toLng);
-                                                $("#latitudeDiv").html(toLat);
-
-
-                                                if(toLng!=fromLng || toLat!=fromLat)
-                                                {
-                                                    fromLng=toLng;
-                                                    fromLat=toLat;
-                                                    mapUpdater(toLat,toLng);
-                                                }
-
-                                            });
-
-
-                        };
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            </div>
+        </div>
+    </div>
 
 
 
 
 
 
-                    }
 
-                </script>
-
-
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
-
-
-
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap"></script>
 </body>
 </html>
 

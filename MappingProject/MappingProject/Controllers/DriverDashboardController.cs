@@ -77,7 +77,7 @@ namespace MappingProject.Controllers
             ViewBag.LastLongitude = LocationObj.LastLongitude;
             var vehicleObj = db.AspNetVehicles.FirstOrDefault(s => s.Id == id);
             ViewBag.CarID = vehicleObj.VehicleID;
-
+            ViewBag.DriverID = User.Identity.GetUserId();
             ViewBag.TimeStamp = LocationObj.TimeStamp;
             ViewBag.EngineRPM = LocationObj.EngineRPM;
             ViewBag.Speed = LocationObj.Speed;
