@@ -167,7 +167,7 @@ namespace MappingProject.Controllers
                 OverSpeed overspeedobj = new OverSpeed();
                 int counter = item.Id - 1;
                 x = Convert.ToInt32(item.Speed);
-                if (x >= 100)
+                if (x >= 50)
                 {
                     AspNetVehicleLocationTable LastLocation = null;
                     do
@@ -176,7 +176,7 @@ namespace MappingProject.Controllers
                         if (LastLocation != null)
                         {
                             var y = Convert.ToInt32(LastLocation.Speed);
-                            if (y <= 99)
+                            if (y <= 49)
                             {
                                 overspeedobj.latitude = item.LastLatitude;
                                 overspeedobj.longitude = item.LastLongitude;

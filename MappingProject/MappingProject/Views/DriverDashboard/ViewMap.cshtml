@@ -120,7 +120,7 @@
                                     var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
                                     var newTimeStamp = data.TimeStamp;
 
-                                    if (oldSpeed < 100 && newSpeed >= 100) {
+                                    if (oldSpeed < 50 && newSpeed >= 50) {
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(oldLat, oldLang),
                                             map: map,
@@ -130,7 +130,7 @@
                                     }
 
                                     if (google.maps.geometry.poly.containsLocation(coordinate, LahoreMap) == true) {
-                                       $("#alertDiv").removeAttr('hidden');
+                                        $("#alertDiv").attr('hidden');
                                        $("#alertDiv").html('<b>' + "Car is in Lahore " + '</b>');
                                     }
                                     else {

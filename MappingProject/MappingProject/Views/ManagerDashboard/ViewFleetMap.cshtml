@@ -87,6 +87,28 @@
             intervalID = setInterval(updateView, 100);
             //UpdateCurser();
 
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Define the LatLng coordinates for the polygon's path.
+            var LahoreCoord = [
+              { lat: 31.622465, lng: 74.421028 },
+              { lat: 31.546218, lng: 74.438518 },
+              { lat: 31.447361, lng: 74.507470 },
+              { lat: 31.440946, lng: 74.413826 },
+              { lat: 31.332476, lng: 74.184747 },
+              { lat: 31.394625, lng: 74.144921 },
+              { lat: 31.467275, lng: 74.224526 },
+              { lat: 31.614580, lng: 74.303744 }
+            ];
+
+            // Construct the polygon.
+            var LahoreMap = new google.maps.Polygon({
+                paths: LahoreCoord,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2
+            });
+            LahoreMap.setMap(map);
+
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -110,7 +132,7 @@
                                     var newFuel_Rail_Pressure = data.Fuel_Rail_Pressure;
                                     var newTimeStamp = data.TimeStamp;
 
-                                    if (oldSpeed < 100 && newSpeed >= 100) {
+                                    if (oldSpeed < 50 && newSpeed >= 50) {
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(oldLat, oldLang),
                                             map: map,
@@ -119,6 +141,15 @@
                                         });
                                     }
 
+                                    if (google.maps.geometry.poly.containsLocation(coordinate, LahoreMap) == true) {
+                                        $("#alertDiv").attr('hidden');
+                                        $("#alertDiv").html('<b>' + "Car is in Lahore " + '</b>');
+                                    }
+                                    else {
+                                        $("#alertDiv").removeAttr('hidden');
+                                        $("#alertDiv").html('<b>' + "Car is in not Lahore " + '</b>');
+
+                                    }
                                     $("#fuelpressureDiv").html(newFuelPressure);
                                     $("#longitudeDiv").html(toLng);
                                     $("#latitudeDiv").html(toLat);
@@ -499,6 +530,8 @@
 
                 <div></div>
                 <br><br>
+            <div class="alert alert-danger" role="alert" id="alertDiv" style="align-items:center;align-self:center;text-align:center;" hidden></div>
+                
                 <div class="box_info center-block">
                     <div id="example">
                         <div id="gauge-container" class="hidden-on-narrow">
