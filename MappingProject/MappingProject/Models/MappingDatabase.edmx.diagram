@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="43d7a1c3127744529d3b7b044fdabe87" Name="Diagram1">
+        <EntityTypeShape EntityType="MappingDatabaseModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetAdmin_Managers" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetDriver_Vehicle" Width="1.5" PointX="8.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetManager_Drivers" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetRole" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetUser" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetVehicle" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetVehicleLocationTable" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspNetAdmin_Managers_ToAdmin" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspNetAdmin_Managers_ToManager" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspDriver_Vehicle_ToUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspDriver_Vehicle_ToVehicles" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspNetManager_Drivers_ToDriver" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspNetManager_Drivers_ToManager" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.FK_AspNetVehicleLocation_ToVehicles" ManuallyRouted="false" />
+        <AssociationConnector Association="MappingDatabaseModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

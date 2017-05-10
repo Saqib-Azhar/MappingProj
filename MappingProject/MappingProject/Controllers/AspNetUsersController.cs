@@ -100,6 +100,7 @@ namespace MappingProject.Controllers
             List<DriverVehicle> data = new List<DriverVehicle>();
 
             db.Configuration.ProxyCreationEnabled = false;
+            
             List<AspNetManager_Drivers> sub = db.AspNetManager_Drivers.Where(r => r.ManagerID == id).ToList();
 
 
