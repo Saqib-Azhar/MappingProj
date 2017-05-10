@@ -7,22 +7,27 @@
 <script type="text/javascript">
 
 
+
+    
+   var ObdReading =
+{
+    vehicleid: '',
+    latitude: '',
+    longitude: '',
+    timestamp:'',
+    altitude:'',
+    readings: []
+};
+    
    var readings =
     {
-        vehicleid: '',
-        longitude: '',
-        latitude: '',
-        EngineRPM:'',
-        Speed:'',
-        FuelPressure:'',
-        Throttle_Pos:'',
-        FuelType:'',
-        Fuel_Rail_Pressure:'',
-        TimeStamp:''
+        FUEL_PRESSURE: '',
+        ENGINE_RPM: '',
+        SPEED: '',
+        THROTTLE_POS:'',
+        FUEL_TYPE:'',
+        ENGINE_LOAD:''
     };
-
-
-
 
    $(document).ready(function () {
 
@@ -31,11 +36,18 @@
         //saveValues.onclick = function () {
 
        $("#saveValues").click(function (){
-            readingval = Object.create(readings);
+           readingval = Object.create(ObdReading);
             readingval.latitude = $("#latitudeValue").val();
             readingval.longitude = $("#longitudeValue").val();
+            readingval.timestamp = 0;
+            readingval.altitude = 0;
             readingval.vehicleid= @ViewBag.VehicleID;
 
+           
+           readingsObj = Object.create(readings);
+           readingsObj.SPEED=$("#Speed").val();
+
+           readingval.readings.push(readingsObj);
            console.log("reading get",readingval);
 
 
@@ -76,12 +88,14 @@
         <tr>
             <td>Latitude:</td>
             <td>Longitude:</td>
+            <td>Speed:</td>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td><input type="text" id="latitudeValue" /></td>
             <td><input type="text" id="longitudeValue" /></td>
+            <td><input type="text" id="Speed" /></td>
         </tr>
     </tbody>
 </table>

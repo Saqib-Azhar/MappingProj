@@ -354,6 +354,7 @@
     <Content Include="Images\Manager.png" />
     <Content Include="Images\Sweet-Tiled-World-Map-No-Background.png" />
     <Content Include="Images\vintage-world-map-facebook-cover-timeline-banner-for-fb.jpg" />
+    <Content Include="img\brown_MarkerA.png" />
     <Content Include="img\default-avatar.png" />
     <Content Include="img\faces\face-0.jpg" />
     <Content Include="img\faces\face-1.jpg" />

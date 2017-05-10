@@ -144,6 +144,55 @@ namespace MappingProject.Controllers
 
         }
 
+        public class OverSpeed
+        {
+            public int vehicleid { get; set; }
+            public double? latitude { get; set; }
+            public double? longitude { get; set; }
+        }
+
+        public JsonResult OverSpeedData(string id)
+        {
+            List<OverSpeed> data = new List<OverSpeed>();
+            var x=0;
+            
+            var vehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == id);
+
+            var overspeedPositions = (from sub in db.AspNetVehicleLocationTables
+                        where sub.VehicleID == vehicleObj.VehicleID 
+                        select new { sub.Id, sub.LastLatitude, sub.Speed, sub.LastLongitude, sub.VehicleID }).ToList();
+
+            foreach(var item in overspeedPositions)
+            {
+                OverSpeed overspeedobj = new OverSpeed();
+                int counter = item.Id - 1;
+                x = Convert.ToInt32(item.Speed);
+                if (x >= 100)
+                {
+                    AspNetVehicleLocationTable LastLocation = null;
+                    do
+                    {
+                        LastLocation = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == counter && s.VehicleID == item.VehicleID);
+                        if (LastLocation != null)
+                        {
+                            var y = Convert.ToInt32(LastLocation.Speed);
+                            if (y <= 99)
+                            {
+                                overspeedobj.latitude = item.LastLatitude;
+                                overspeedobj.longitude = item.LastLongitude;
+                                overspeedobj.vehicleid = item.VehicleID;
+                                data.Add(overspeedobj);
+                            }
+                        }
+                        counter--;
+                    }
+                    while (LastLocation == null);
+                }
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         [Authorize]
         public JsonResult UpdateView(int id)
