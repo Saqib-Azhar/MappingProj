@@ -21,10 +21,10 @@ namespace MappingProject.Controllers
 
         public class ObdReading
         {
-            public string vehicleid { get;set;}
-            public double latitude { get;set;}
+            public string vehicleid { get; set; }
+            public double latitude { get; set; }
             public double longitude { get; set; }
-            public long timestamp { get; set; }
+            public int? timestamp { get; set; }
             public double altitude { get; set; }
             public readings readings { get; set; }
         }
@@ -46,6 +46,77 @@ namespace MappingProject.Controllers
         {
             var vehicleobj = db.AspNetVehicles.FirstOrDefault(s => s.VehicleID == reading.vehicleid);
             var ReadingObj = new AspNetVehicleLocationTable();
+            //var PreDecessorObj = new AspNetVehicleLocationTable();
+            //try
+            //{
+            //    PreDecessorObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(x => x.VehicleID == Convert.ToInt32(reading.vehicleid));
+            //}
+            //catch { }
+            //if (PreDecessorObj != null)
+            //{
+            //    int? TimeStampDiff = 0;
+            //    var counter = PreDecessorObj.Id;
+            //    var PredecessorCheckObj = new AspNetVehicleLocationTable();
+            //    do
+            //    {
+            //        PredecessorCheckObj = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == counter && s.VehicleID == Convert.ToInt32(reading.vehicleid) && s.TripStatus == "End");
+            //        if (PredecessorCheckObj != null)
+            //        {
+            //            TimeStampDiff = reading.timestamp - PredecessorCheckObj.TimeStamp;
+            //        }
+            //        counter--;
+            //    }
+            //    while (PredecessorCheckObj == null && counter >= 0);
+            //    if (TimeStampDiff > 90000 && PredecessorCheckObj != null)//here: 1000ms = 1s
+            //    {
+            //        ReadingObj.TripStatus = "Start";
+            //    }
+            //    else if(Convert.ToInt32(reading.readings.ENGINE_RPM) < 500)
+            //    {
+            //        PreDecessorObj.TripStatus = "OnRoad";
+            //        db.SaveChanges();
+            //        ReadingObj.TripStatus = "End";
+            //    }
+            //    else
+            //    {
+            //        ReadingObj.TripStatus = "OnRoad";
+            //    }
+            //}
+
+
+
+
+            var PreDecessorObj = new AspNetVehicleLocationTable();
+            try
+            {
+                PreDecessorObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(x => x.VehicleID == Convert.ToInt32(reading.vehicleid));
+            }
+            catch { }
+
+            var counter = PreDecessorObj.Id;
+            var PredecessorCheckObj = new AspNetVehicleLocationTable();
+            if (PreDecessorObj != null)
+            {
+                do
+                {
+                    PredecessorCheckObj = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(s => s.Id == counter && s.VehicleID == Convert.ToInt32(reading.vehicleid) && s.TripStatus == "StartTrip" && Convert.ToInt32(reading.readings.ENGINE_RPM) >= 500);
+                    if (PredecessorCheckObj != null)
+                    {
+                        ReadingObj.TripStatus = "OnTrip";
+                    }
+                    counter--;
+                }
+                while (PredecessorCheckObj == null && counter >= 0);
+            }
+
+            if (Convert.ToInt32(reading.readings.ENGINE_RPM) >= 500 && PredecessorCheckObj == null)
+            {
+                ReadingObj.TripStatus = "StartTrip";
+            }
+            else if (Convert.ToInt32(reading.readings.ENGINE_RPM) < 500 && PredecessorCheckObj == null)
+            {
+                ReadingObj.TripStatus = "EndTrip";
+            }
 
             ReadingObj.LastLatitude = reading.latitude;
             ReadingObj.LastLongitude = reading.longitude;
@@ -101,10 +172,211 @@ namespace MappingProject.Controllers
 
             // ReadingObj.TimeStamp = Convert.ToInt32(reading.timestamp);
             ReadingObj.VehicleID = vehicleobj.Id;
+
             db.AspNetVehicleLocationTables.Add(ReadingObj);
             db.SaveChanges();
 
         }
+
+
+
+
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public class TripRoute
+        {
+            public int RouteID { get; set; }
+            public int RouteStartID { get; set; }
+            public int RouteEndID { set; get; }
+        }
+
+        public JsonResult RouteHistory(string DriverID)
+        {
+            var vehicleDriverObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == DriverID);
+            var id = vehicleDriverObj.VehicleID;
+
+            int loopCounter = 0;
+            int routeCounter = 1;
+            int counter = 0;
+            List<TripRoute> TripRouteList = new List<TripRoute>();
+            var CounterObj = db.AspNetVehicleLocationTables.OrderByDescending(s => s.Id).FirstOrDefault(x => x.VehicleID == id && x.TripStatus == "EndTrip");
+            loopCounter = CounterObj.Id;
+
+            do
+            {
+                var RouteEnd = db.AspNetVehicleLocationTables.OrderByDescending(s => s.Id).FirstOrDefault(x => x.VehicleID == id && x.TripStatus == "EndTrip" && x.Id == loopCounter);
+                if (RouteEnd != null)
+                {
+                    TripRoute route = new TripRoute();
+                    route.RouteID = routeCounter;
+                    route.RouteEndID = RouteEnd.Id;
+                    AspNetVehicleLocationTable RouteStart = new AspNetVehicleLocationTable();
+                    counter = RouteEnd.Id - 1;
+                    do
+                    {
+                        RouteStart = db.AspNetVehicleLocationTables.OrderByDescending(x => x.Id).FirstOrDefault(s => s.Id == counter && s.VehicleID == id && s.TripStatus == "StartTrip");
+                        counter--;
+                    }
+                    while (RouteStart == null && counter > 0);
+                    if (RouteStart != null)
+                    {
+                        route.RouteStartID = RouteStart.Id;
+                        TripRouteList.Add(route);
+                        loopCounter = RouteStart.Id;
+                        routeCounter++;
+                        RouteStart = null;
+                        RouteEnd = null;
+                    }
+                }
+                loopCounter--;
+            }
+            while (loopCounter > 0);
+
+            return Json(TripRouteList, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        public JsonResult GetLogObj(int LogID)
+        {
+            // var data = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == LogID);
+            var data = (from sub in db.AspNetVehicleLocationTables
+                        where sub.Id == LogID
+                        select new { sub.EngineRPM, sub.FuelPressure, sub.FuelType, sub.Fuel_Rail_Pressure, sub.LastLatitude, sub.LastLongitude, sub.Speed, sub.Throttle_Pos, sub.TimeStamp, sub.VehicleID }).FirstOrDefault();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult ViewRoute(int startid)
+        {
+            var locationObj = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == startid);
+            var VehicleDriverObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.VehicleID == locationObj.VehicleID);
+            ViewBag.DriverID = VehicleDriverObj.DriverID;
+            ViewBag.StartPt = startid;
+            
+
+            return View();
+        }
+
+        public class routeValues
+        {
+            
+                public int vehicleid { get; set; }
+                public double? latitude { get; set; }
+                public double? longitude { get; set; }
+                public string TripStatus { get; set; }
+
+        }
+
+        public JsonResult RouteLocations(int startid)
+        {
+            int RouteObjCounter = 0;
+            var startObj = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == startid);
+            List<routeValues> RouteList = new List<routeValues>();
+            RouteObjCounter = Convert.ToInt32(startObj.Id);
+            int VehicleID = startObj.VehicleID;
+            var routeobj = new AspNetVehicleLocationTable();
+            do
+            {
+                routeobj = null;
+                routeobj = db.AspNetVehicleLocationTables.FirstOrDefault(x => x.Id == RouteObjCounter && x.VehicleID == VehicleID);
+
+                if (routeobj != null)
+                {
+                    routeValues routeValObj = new routeValues();
+                    routeValObj.latitude = routeobj.LastLatitude;
+                    routeValObj.longitude = routeobj.LastLongitude;
+                    routeValObj.vehicleid = routeobj.VehicleID;
+                    routeValObj.TripStatus = routeobj.TripStatus;
+                    RouteList.Add(routeValObj);
+                    routeValObj = null;
+                }
+                RouteObjCounter++;
+            }
+            while (routeobj == null|| routeobj.TripStatus != "EndTrip");
+
+
+            return Json(RouteList,JsonRequestBehavior.AllowGet);
+        }
+
+
+        /***************************************************************************************************************************************************/
+        public JsonResult OverSpeedDataByTrip(int startid)
+        {
+            var vehiclelocationobj = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == startid);
+            int RouteObjCounter = 0;
+            var driverobj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.VehicleID == vehiclelocationobj.VehicleID);
+            List<OverSpeed> data = new List<OverSpeed>();
+            var x = 0;
+            var a = 0;
+
+            var vehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == driverobj.DriverID);
+
+            //var overspeedPositions = (from sub in db.AspNetVehicleLocationTables
+            //                          where sub.VehicleID == vehicleObj.VehicleID
+            //                          select new { sub.Id, sub.LastLatitude, sub.Speed, sub.LastLongitude, sub.VehicleID, sub.EngineRPM }).ToList();
+
+            List<AspNetVehicleLocationTable> overspeedPositions = new List<AspNetVehicleLocationTable>();
+
+            RouteObjCounter = startid;
+            var routeobj = new AspNetVehicleLocationTable();
+            do
+            {
+                routeobj = null;
+                routeobj = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == RouteObjCounter && s.VehicleID == vehiclelocationobj.VehicleID);
+
+                if (routeobj != null)
+                {
+                    overspeedPositions.Add(routeobj);
+                }
+                RouteObjCounter++;
+            }
+            while (routeobj == null || routeobj.TripStatus != "EndTrip");
+
+            
+
+            foreach (var item in overspeedPositions)
+            {
+                OverSpeed overspeedobj = new OverSpeed();
+                int counter = item.Id - 1;
+                x = Convert.ToInt32(item.Speed);
+                a = Convert.ToInt32(item.EngineRPM);
+                if (x >= 50 && a >= 100)
+                {
+                    AspNetVehicleLocationTable LastLocation = null;
+                    do
+                    {
+                        LastLocation = db.AspNetVehicleLocationTables.FirstOrDefault(s => s.Id == counter && s.VehicleID == item.VehicleID);
+                        if (LastLocation != null)
+                        {
+                            var y = Convert.ToInt32(LastLocation.Speed);
+                            if (y <= 49)
+                            {
+                                overspeedobj.latitude = item.LastLatitude;
+                                overspeedobj.longitude = item.LastLongitude;
+                                overspeedobj.vehicleid = item.VehicleID;
+                                data.Add(overspeedobj);
+                            }
+                        }
+                        counter--;
+                    }
+                    while (LastLocation == null);
+                }
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+        /***************************************************************************************************************************************************/
+
+
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -154,20 +426,22 @@ namespace MappingProject.Controllers
         public JsonResult OverSpeedData(string id)
         {
             List<OverSpeed> data = new List<OverSpeed>();
-            var x=0;
+            var x = 0;
+            var a = 0;
             
             var vehicleObj = db.AspNetDriver_Vehicle.FirstOrDefault(s => s.DriverID == id);
 
             var overspeedPositions = (from sub in db.AspNetVehicleLocationTables
                         where sub.VehicleID == vehicleObj.VehicleID 
-                        select new { sub.Id, sub.LastLatitude, sub.Speed, sub.LastLongitude, sub.VehicleID }).ToList();
+                        select new { sub.Id, sub.LastLatitude, sub.Speed, sub.LastLongitude, sub.VehicleID, sub.EngineRPM }).ToList();
 
             foreach(var item in overspeedPositions)
             {
                 OverSpeed overspeedobj = new OverSpeed();
                 int counter = item.Id - 1;
                 x = Convert.ToInt32(item.Speed);
-                if (x >= 50)
+                a = Convert.ToInt32(item.EngineRPM);
+                if (x >= 50 && a >= 100) 
                 {
                     AspNetVehicleLocationTable LastLocation = null;
                     do
@@ -192,8 +466,7 @@ namespace MappingProject.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
 
         }
-
-
+       
         [Authorize]
         public JsonResult UpdateView(int id)
         {

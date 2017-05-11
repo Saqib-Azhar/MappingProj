@@ -354,7 +354,11 @@
     <Content Include="Images\Manager.png" />
     <Content Include="Images\Sweet-Tiled-World-Map-No-Background.png" />
     <Content Include="Images\vintage-world-map-facebook-cover-timeline-banner-for-fb.jpg" />
+    <Content Include="img\blue_MarkerB.png" />
+    <Content Include="img\blue_MarkerE.png" />
+    <Content Include="img\blue_MarkerS.png" />
     <Content Include="img\brown_MarkerA.png" />
+    <Content Include="img\brown_MarkerS.png" />
     <Content Include="img\default-avatar.png" />
     <Content Include="img\faces\face-0.jpg" />
     <Content Include="img\faces\face-1.jpg" />
@@ -650,6 +654,8 @@
     <Content Include="Views\ManagerDashboard\DriverIndex.cshtml" />
     <Content Include="Views\AspNetUsers\DriverDelete.cshtml" />
     <Content Include="Views\AspNetUsers\ManagerDelete.cshtml" />
+    <Content Include="Views\DriverDashboard\RouteHistory.cshtml" />
+    <Content Include="Views\AspNetVehicleLocationTables\ViewRoute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

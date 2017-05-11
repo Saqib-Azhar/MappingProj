@@ -16,22 +16,40 @@
                    });
         });
 
-        
-        $("#DriverID").click(function () {
-            setInterval(updateHistory, 1000);
-        });
 
-        function updateHistory()
-        {
+        $("#DriverID").click(function () {
+
             var selectedDriver = $("#DriverID").val();
-            $.get('@Url.Action("FleetHistoryByDriver", "AspNetVehicleLocationTables")',
-                    { id: selectedDriver }, function (data) {
-                        $('#HistoryTable').html(' ');
-                        $.each(data, function (i, item) {
-                            $('#HistoryTable').append('<tr><td>' + item.LastLatitude + '</td><td>' + item.LastLongitude + '</td><td>' + item.EngineRPM + '</td><td>' + item.Speed + '</td><td>' + item.FuelPressure + '</td><td>' + item.Throttle_Pos + '</td><td>' + item.FuelType + '</td><td>' + item.Fuel_Rail_Pressure + '</td><td>' + item.TimeStamp + '</td><td>' + item.VehicleID + '</td></tr>');
+        var StartLatitude;
+        var StartLongitude;
+        var EndLatitude;
+        var EndLongitude;
+
+
+        $.get('@Url.Action("RouteHistory", "AspNetVehicleLocationTables")',
+                { DriverID: selectedDriver }, function (data) {
+                    console.log("here data is: ", data);
+                    $('#HistoryTable').html(' ');
+                    $.each(data, function (i, item) {
+                        console.log("here item is: ", item);
+
+                        $.get('@Url.Action("GetLogObj", "AspNetVehicleLocationTables")',
+                        { LogID: item.RouteStartID }, function (data) {
+                            //data = JSON.stringify(data);
+                            console.log("starting pt data:",data);
+                            StartLatitude = data.LastLatitude;
+                            StartLongitude = data.LastLongitude;
+                            $.get('@Url.Action("GetLogObj", "AspNetVehicleLocationTables")',
+                           { LogID: item.RouteEndID }, function (data) {
+                               EndLatitude = data.LastLatitude;
+                               EndLongitude = data.LastLongitude;
+                               $('#HistoryTable').append('<tr><td>' + item.RouteID + '</td><td>' + item.RouteStartID + ': (' + StartLatitude + ',' + StartLongitude + ')</td><td>' + item.RouteEndID + ': (' + EndLatitude + ',' + EndLongitude + ')</td><td><a href="/AspNetVehicleLocationTables/ViewRoute?startid=' + item.RouteStartID + '">View Map</a></td></tr>');
+
+                           });
                         });
-                    });
-        }
+                });
+            });
+        });
 
 
     });
@@ -93,52 +111,23 @@
 
     <br />
 
-
     <div class="row">
         <div class="form-group">
             <div class="well well-lg" style="background-color:white;">
 
-
-
-
-
-                <table class="table table-bordered table-responsive table-striped">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <td>
-                            Latitude
+                            RouteID
                         </td>
                         <td>
-                            Longitude
+                            Starting Point
                         </td>
                         <td>
-                            EngineRPM
+                            Ending Point
                         </td>
-                        <td>
-                            Speed
-                        </td>
-                        <td>
-                            Fuel Pressure
-                        </td>
-                        <td>
-                            Throttle Position
-                        </td>
-                        <td>
-                            Fuel Type
-                        </td>
-                        <td>
-                            Fuel Rail Pressure
-                        </td>
-                        <td>
-                            Time
-                        </td>
-                        <td>
-                            VehicleID
-                        </td>
-                        @*<td>
-                                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-                            </td>*@
+                        <td></td>
+
                     </tr>
                     <tbody id="HistoryTable"></tbody>
 
@@ -147,7 +136,10 @@
                 </table>
 
 
-                </div></div></div>
+
+            </div>
+        </div>
+    </div>
 
 
 </body>

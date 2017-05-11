@@ -115,6 +115,7 @@
           <Property Name="TimeStamp" Type="int" />
           <Property Name="VehicleID" Type="int" Nullable="false" />
           <Property Name="Altitude" Type="float" />
+          <Property Name="TripStatus" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <Association Name="FK_AspDriver_Vehicle_ToUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
@@ -445,6 +446,7 @@
           <Property Name="TimeStamp" Type="Int32" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
           <Property Name="Altitude" Type="Double" />
+          <Property Name="TripStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetVehicle" Relationship="Self.FK_AspNetVehicleLocation_ToVehicles" FromRole="AspNetVehicleLocationTable" ToRole="AspNetVehicle" />
         </EntityType>
         <Association Name="FK_AspNetAdmin_Managers_ToAdmin">
@@ -734,6 +736,7 @@
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
                 <ScalarProperty Name="Altitude" ColumnName="Altitude" />
+                <ScalarProperty Name="TripStatus" ColumnName="TripStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -26,6 +26,7 @@ namespace MappingProject.Models
         public Nullable<int> TimeStamp { get; set; }
         public int VehicleID { get; set; }
         public Nullable<double> Altitude { get; set; }
+        public string TripStatus { get; set; }
     
         public virtual AspNetVehicle AspNetVehicle { get; set; }
     }
