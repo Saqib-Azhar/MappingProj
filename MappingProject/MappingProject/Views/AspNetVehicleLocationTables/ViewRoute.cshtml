@@ -1,0 +1,128 @@
+﻿<script src="~/js/jquery-1.10.2.min.js"></script>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fleet Map</title>
+    <script type="text/javascript">
+        
+
+        $(document).ready(function () {
+            var vehicleID;
+            var marker;
+            var map;
+            var globalLong = 75.2;
+            var globalLat = 34.2;
+            function myMap() {
+                latiVar = globalLat;
+                longVar = globalLong;
+                var mapCanvas = document.getElementById("map");
+                var myCenter = new google.maps.LatLng(latiVar, longVar);
+                var mapOptions = { center: myCenter, zoom:18 };
+                map = new google.maps.Map(mapCanvas, mapOptions);
+               
+
+            }
+        
+            
+
+            GetData();
+            function GetData(){
+                var DriverID = '@(ViewBag.DriverID)';
+                var startid = @(ViewBag.StartPt);
+
+                marker;
+                map;
+                myMap();
+
+                $.get('@Url.Action("RouteLocations", "AspNetVehicleLocationTables")',
+                             { startid: startid }, function (data) {
+                                 $.each(data, function (i, item) {
+                                     globalLat=item.latitude;
+                                     globalLong=item.longitude;
+                                 });
+                                 myMap();
+                                 $.each(data, function (i, item) {
+                                     if(item.TripStatus == "StartTrip"){
+                                         marker = new google.maps.Marker({
+                                             position: new google.maps.LatLng(item.latitude, item.longitude),
+                                             map: map,
+                                             title: 'Starting Point',
+                                             icon: '/img/blue_markerB.png'
+                                         });
+                                     }
+                                     else if(item.TripStatus == "EndTrip"){
+                                         marker = new google.maps.Marker({
+                                             position: new google.maps.LatLng(item.latitude, item.longitude),
+                                             map: map,
+                                             title: 'Ending Point',
+                                             icon: '/img/blue_markerE.png'
+                                         });
+                                     }
+
+                                 });
+                             });
+
+                $.get('@Url.Action("OverSpeedDataByTrip", "AspNetVehicleLocationTables")',
+                             { startid: startid }, function (data) {
+
+                                 $.each(data, function (i, item) {
+                                     marker = new google.maps.Marker({
+                                         position: new google.maps.LatLng(item.latitude, item.longitude),
+                                         map: map,
+                                         title: 'OverSpeed',
+                                         icon: '/img/brown_markerS.png'
+                                     });
+                                 });
+                             });
+
+            }
+
+
+
+        
+
+        });
+
+
+        
+
+
+
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd9Ai1sv4qjATURQaYgoqyU30n2TMe7Cs&callback=myMap" defer></script>
+</head>
+<body>
+
+
+
+
+
+    <div class="row">
+        <div class="form-group">
+            <div class="well well-lg" style="background-color:white;">
+
+
+
+
+                <table class="table table-responsive table-bordered" align="center">
+
+                    <tbody>
+
+                        <tr>
+                            <td id="map" style="width:900px;height:400px" colspan="9"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                </div>
+            </div>
+        </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    
+</body>
+</html>

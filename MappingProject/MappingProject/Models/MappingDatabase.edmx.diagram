@@ -14,7 +14,7 @@
         <EntityTypeShape EntityType="MappingDatabaseModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MappingDatabaseModel.AspNetUser" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MappingDatabaseModel.AspNetVehicle" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetVehicleLocationTable" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MappingDatabaseModel.AspNetVehicleLocationTable" Width="1.5" PointX="8.25" PointY="3" IsExpanded="true" />
         <AssociationConnector Association="MappingDatabaseModel.FK_AspNetAdmin_Managers_ToAdmin" ManuallyRouted="false" />
         <AssociationConnector Association="MappingDatabaseModel.FK_AspNetAdmin_Managers_ToManager" ManuallyRouted="false" />
         <AssociationConnector Association="MappingDatabaseModel.FK_AspDriver_Vehicle_ToUsers" ManuallyRouted="false" />

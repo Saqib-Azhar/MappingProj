@@ -90,14 +90,14 @@
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Define the LatLng coordinates for the polygon's path.
             var LahoreCoord = [
-              { lat: 31.622465, lng: 74.421028 },
-              { lat: 31.546218, lng: 74.438518 },
-              { lat: 31.447361, lng: 74.507470 },
-              { lat: 31.440946, lng: 74.413826 },
-              { lat: 31.332476, lng: 74.184747 },
-              { lat: 31.394625, lng: 74.144921 },
-              { lat: 31.467275, lng: 74.224526 },
-              { lat: 31.614580, lng: 74.303744 }
+              { lat: 31.487400, lng: 74.411977 },
+              { lat: 31.484747, lng: 74.418414 },
+              { lat: 31.473825, lng: 74.410719 },
+              { lat: 31.471550, lng: 74.407310 },
+              { lat: 31.474689, lng: 74.403876 },
+              { lat: 31.474857, lng: 74.401258 },
+              { lat: 31.477504, lng: 74.398183 },
+              { lat: 31.487919, lng: 74.411799 }
             ];
 
             // Construct the polygon.
@@ -123,6 +123,7 @@
 
                                     toLng = data.LastLongitude;
                                     toLat = data.LastLatitude;
+                                    var coordinate = new google.maps.LatLng(data.LastLatitude, data.LastLongitude);
 
                                     var newEngineRPM = data.EngineRPM;
                                     var newSpeed = data.Speed;

@@ -99,6 +99,12 @@ namespace MappingProject.Controllers
         }
 
 
+        public ActionResult RouteHistory()
+        {
+            ViewBag.DriverID = User.Identity.GetUserId();
+            return View();
+        }
+
 
         public ActionResult Dashboard()
         {

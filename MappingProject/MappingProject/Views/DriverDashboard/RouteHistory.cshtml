@@ -1,0 +1,80 @@
+﻿<script src="~/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    var selectedDriver = '@(ViewBag.DriverID)';
+    var StartLatitude;
+    var StartLongitude;
+    var EndLatitude;
+    var EndLongitude;
+    
+
+    $.get('@Url.Action("RouteHistory", "AspNetVehicleLocationTables")',
+            { DriverID: selectedDriver }, function (data) {
+                console.log("here data is: ", data);
+                $('#HistoryTable').html(' ');
+                $.each(data, function (i, item) {
+                    console.log("here item is: ", item);
+
+                    $.get('@Url.Action("GetLogObj", "AspNetVehicleLocationTables")',
+                    { LogID: item.RouteStartID }, function (data) {
+                        //data = JSON.stringify(data);
+                        console.log("starting pt data:",data);
+                        StartLatitude = data.LastLatitude;
+                        StartLongitude = data.LastLongitude;
+                        $.get('@Url.Action("GetLogObj", "AspNetVehicleLocationTables")',
+                       { LogID: item.RouteEndID }, function (data) {
+                           EndLatitude = data.LastLatitude;
+                           EndLongitude = data.LastLongitude;
+                           $('#HistoryTable').append('<tr><td>' + item.RouteID + '</td><td>' + item.RouteStartID + ': (' + StartLatitude + ',' + StartLongitude + ')</td><td>' + item.RouteEndID + ': (' + EndLatitude + ',' + EndLongitude + ')</td><td><a href="/AspNetVehicleLocationTables/ViewRoute?startid=' + item.RouteStartID + '">View Map</a></td></tr>');
+
+                       });
+                    });
+
+                   
+
+
+                });
+            });
+
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FleetHistory</title>
+</head>
+<body>
+    <div class="row">
+        <div class="form-group">
+            <div class="well well-lg" style="background-color:white;">
+
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td>
+                            RouteID
+                        </td>
+                        <td>
+                            Starting Point
+                        </td>
+                        <td>
+                            Ending Point
+                        </td>
+                        <td>
+                        </td>
+
+                    </tr>
+                    <tbody id="HistoryTable"></tbody>
+
+
+
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
