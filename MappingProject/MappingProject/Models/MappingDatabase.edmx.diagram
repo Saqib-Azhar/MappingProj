@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="43d7a1c3127744529d3b7b044fdabe87" Name="Diagram1">
+      <Diagram DiagramId="b820c12471e346e5bad8bc0db2c7b0a7" Name="Diagram1">
         <EntityTypeShape EntityType="MappingDatabaseModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MappingDatabaseModel.AspNetAdmin_Managers" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MappingDatabaseModel.AspNetDriver_Vehicle" Width="1.5" PointX="8.25" PointY="7.625" IsExpanded="true" />
